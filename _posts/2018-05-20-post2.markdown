@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "GSoC'18: Week 1 and 2"
+date:   2018-05-26 16:00 +0530
+categories: jekyll update
+---
+
+Hello, world!
+
+The commmunity bonding period and first week of GSoC has come to an end. Community bonding period lasted over three weeks. I coult not do much work over first two weeks due to my end semester exams. In the third week, I implemented [MADE](https://arxiv.org/abs/1502.03509), which is Masked Autoencoder for Distributed Estimation.  I also added dilation feature for convolutions (which was a [feature request](https://github.com/FluxML/NNlib.jl/pull/31#issuecomment-386673632) for NNlib.jl).  
+- [PR#19](https://github.com/FluxML/model-zoo/pull/39): Implemented MADE architecture in Flux. 
+- [PR#40](https://github.com/FluxML/NNlib.jl/pull/40): Dilation support for convolutions. So far, dilation support is available for 1D, 2D and 3D convolutions.  
+
+In week 1, I implemented and created demos of some seminal papers in deep reinforcement learning. The algorithms implemented were tested on environments in OpenAI Gym using the package [OpenAIGym.jl](https://github.com/JuliaML/OpenAIGym.jl). Environments used for testing are CartPole-v0, Pong-v0 and Pendulum-v0. The work done in this regard over pre-GSoC period and this week has been compiled into [Flux baselines](https://github.com/tejank10/Flux-baselines) repo. As of now it contains 6 models, which include:  
+- [Deep Q Networks](https://github.com/tejank10/Flux-baselines/blob/master/dqn/dqn.jl)
+- [Double DQN](https://github.com/tejank10/Flux-baselines/blob/master/dqn/double-dqn.jl)
+- [Prioritized Experience Replay DQN](https://github.com/tejank10/Flux-baselines/blob/master/dqn/prioritized-replay-dqn.jl)
+- [Dueling DDQN ](https://github.com/tejank10/Flux-baselines/blob/master/dqn/duel-dqn.jl)
+- [Advantage Actor-Critic](https://github.com/tejank10/Flux-baselines/blob/master/actor-critic/a2c.jl)
+- [Deep Deterministic Policy Gradients](https://github.com/tejank10/Flux-baselines/blob/master/ddpg/ddpg.jl)
+
+In week 2, I started working towards one major milestone of the project: the [AlphaGo Zero](https://deepmind.com/blog/alphago-zero-learning-scratch/) model. For those of you not familiar, AlphaGo Zero is latest version of AlphaGo which is a program to play (and defeat :P) the ancient Chinese game of Go. This version of AlphaGo doesn't take any human amateur and professional games to learn how to play Go. Instead it learns to play by playing games against itself, starting from completely random play.  
+
+[AlphaGo.jl](https://github.com/tejank10/AlphaGo.jl) is where I am implementing the Flux based version of AlphaGo Zero. This part of project is divided  into three tasks: 
+- Creating the environment for Go
+- Monte-Carlo Tree Search
+- Main model of AlphaGo Zero using Go and MCTS
+
+In week 2 I created the environment of Go. The environment simulates the game of Go, with abstraction like that of OpenAI Gym. The game can be played on a board of size 9x9, 13x13, 17x17 or 19x19. A player is assigned stones of either black or white color. The player with black stones makes the first move. Now, this can be an advantage for the black player. Hence white player is awarded some extra points. These extra points are called komi. Players can place a stone on any intersection of a vertical and horizontal lines on the board. A *NxN* board has *N^2* intersections.  On a player's turn, he can either place a stone or can pass to the other player. Thus, action space for the environment is *N^2 + 1*. The game ends when both the players pass consecutively. Depending on the end game state of the board, scores are calculated and winner is decided.  
+
+In the coming days, my goals will be to complete the other two tasks. Hopefully in the next blog post, I'll present the demo of the game before you. 
+
+
+
+
