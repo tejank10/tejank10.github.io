@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "GSoC'18: Week 1 and 2"
+title:  "GSoC'18: Flux baselines, Go and more"
 date:   2018-05-26 16:00 +0530
 categories: jekyll update
 ---
