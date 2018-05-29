@@ -7,7 +7,7 @@ categories: jekyll update
 
 Hello, world!
 
-The commmunity bonding period and first week of GSoC has come to an end. Community bonding period lasted over three weeks. I coult not do much work over first two weeks due to my end semester exams. In the third week, I implemented [MADE](https://arxiv.org/abs/1502.03509), which is Masked Autoencoder for Distributed Estimation.  I also added dilation feature for convolutions (which was a [feature request](https://github.com/FluxML/NNlib.jl/pull/31#issuecomment-386673632) for NNlib.jl).  
+The commmunity bonding period and first 2 weeks of GSoC has come to an end. Community bonding period lasted over three weeks. I coult not do much work over first two weeks due to my end semester exams. In the third week, I implemented [MADE](https://arxiv.org/abs/1502.03509), which is Masked Autoencoder for Distributed Estimation.  I also added dilation feature for convolutions (which was a [feature request](https://github.com/FluxML/NNlib.jl/pull/31#issuecomment-386673632) for NNlib.jl).  
 - [PR#19](https://github.com/FluxML/model-zoo/pull/39): Implemented MADE architecture in Flux. 
 - [PR#40](https://github.com/FluxML/NNlib.jl/pull/40): Dilation support for convolutions. So far, dilation support is available for 1D, 2D and 3D convolutions.  
 
