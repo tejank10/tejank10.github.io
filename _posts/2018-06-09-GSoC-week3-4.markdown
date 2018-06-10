@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "GSoC'18: From Go to AlphaGo"
+date:   2018-06-09 16:00 +0530
+categories: jekyll update
+---
+
+Hello, world!
+
+In the last post, I had talked about the game of Go and its dynamics. In last two weeks, I worked on the set objectives which were Monte-Carlo Tree Search and putting things together to make AlphaGo Zero.
+
+In the week 3, it was mostly about MCTS. The MCTS is organized into two parts. One is a `struct` for a node of tree. The other is a `struct` for Player which uses MCTS to perform move. `MCTSPlayer` is the `struct` with which the user will interact. A node of Monte-Carlo tree is defined by a board position, and the different positions it can go to upon playing any of the moves from that board position in the action space. `MCTSPlayer` provides an API to perform Tree Search. It then selects a move based on tree search, and perform it. While performing tree search virtual loss was used. It means that when selecting a node, it is pretended that evaluation has already taken place. This introduces some stochasticity in selection of node.
+
+`MCTSPlayer` consists of a neural network. This neural network is used to generate a prediction of policy and value for a given input of board position. This prediction is used to update the values related to the nodes (which we had earlier used as virtual loss). `MCTSPlayer`'s neural network is of type `NeuralNet`, which is broken down into 3 parts: Base network, value head and policy head. The input passes through the base network first. The output of it is fed into value head to obtain value of state and into policy head to obtain the policy for it. `NeuralNet` can also perform the evaluation of two `MCTSPlayer`s, where two players compete in a series of games to decide who is the winner.
+
+I have put up an example of AlphaGo Zero algorithm [here](https://github.com/tejank10/AlphaGo.jl/blob/master/src/play.jl). By setting the flags, you can run it. By default it runs the default AGZ algorithms from the paper.
