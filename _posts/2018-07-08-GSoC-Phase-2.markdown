@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  "GSoC'18: AlphaGo.jl"
+title:  "GSoC'18: AlphaGo.jl
 date:   2018-07-08 16:00 +0530
 categories: jekyll update
 ---
 
 Hello, world!
 
-The phase 2 of GSoC is over and AlphaGo.jl is ready! In this post I am going to explain about the usage of it.
-AlphaGo.jl is built to try and test the Alpha(Go)Zero algorithm with your own parameters on the game of Go. Today, I'll explain about higher level methods of it. For more details, which mainly includes MCTS implementation, you can check out the [repo](https://github.com/tejank10/AlphaGo.jl). It is built using [`Flux.jl`](https://www.fluxml.ai), a machine learning library for [Julia](https://www.julialang.org).
+The phase 2 of GSoC is over and [AlphaGo.jl](https://github.com/tejank10/AlphaGo.jl) is ready! In this post I am going to explain about the usage of it.
+[AlphaGo.jl](https://github.com/tejank10/AlphaGo.jl) is built to try and test the Alpha(Go)Zero algorithm with your own parameters on the game of Go. Today, I'll explain about higher level methods of it. For more details, which mainly includes MCTS implementation, you can check out the [repo](https://github.com/tejank10/AlphaGo.jl). It is built using [`Flux.jl`](https://www.fluxml.ai), a machine learning library for [Julia](https://www.julialang.org).
 
 ### Environment
 `GameEnv` is an `abstract type` used to represent game environment. Setting up environment is the first thing to do before starting with anything. This is because environment stores important information about the game which is used by other modules. Other modules require environment as input in order to set up themselves using this information.
