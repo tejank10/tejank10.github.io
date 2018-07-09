@@ -1,0 +1,146 @@
+---
+layout: post
+title:  "GSoC'18: AlphaGo.jl"
+date:   2018-07-08 16:00 +0530
+categories: jekyll update
+---
+
+Hello, world!
+
+The phase 2 of GSoC is over and AlphaGo.jl is ready! In this post I am going to explain about the usage of it.
+AlphaGo.jl is built to try and test the Alpha(Go)Zero algorithm with your own parameters on the game of Go. Today, I'll explain about higher level methods of it. For more details, which mainly includes MCTS implementation, you can check out the [repo](https://github.com/tejank10/AlphaGo.jl). It is built using [`Flux.jl`](https://www.fluxml.ai), a machine learning library for [Julia](https://www.julialang.org).
+
+### Environment
+`GameEnv` is an `abstract type` used to represent game environment. Setting up environment is the first thing to do before starting with anything. This is because environment stores important information about the game which is used by other modules. Other modules require environment as input in order to set up themselves using this information.
+
+Example:
+```julia
+env = GoEnv(9)
+```
+Here we have set up environment for Go having board size of 9x9.
+
+### NeuralNet
+`NeuralNet` structure is used to store the AlphaZero neural network. The AlphaZero neural network is made up of three parts. A base network is there, which branches out into value netwrok and policy network.
+The base network accepts Position of the board as input. Value network outputs a single value between -1 to 1 denoting who will win from the given position. -1 denotes white will win from that position and 1 implies black. The policy network returns the probability distribution over the different actions for that position of board.
+
+You can replace any of these three networks with your own Flux model, provided it is consistent with the whole pipeline fo the `NeuralNet`.
+```julia
+mutable struct NeuralNet
+  base_net::Chain
+  value::Chain
+  policy::Chain
+  opt
+
+  function NeuralNet(env::T; base_net = nothing, value = nothing, policy = nothing,
+                          tower_height::Int = 19) where T <: GameEnv
+    if base_net == nothing
+      res_block() = ResidualBlock([256,256,256], [3,3], [1,1], [1,1])
+      # 19 residual blocks
+      tower = [res_block() for i = 1:tower_height]
+      base_net = Chain(Conv((3,3), env.planes=>256, pad=(1,1)), BatchNorm(256, relu),
+                        tower...) |> gpu
+    end
+    if value == nothing
+      value = Chain(Conv((1,1), 256=>1), BatchNorm(1, relu), x->reshape(x, :, size(x, 4)),
+                    Dense(env.N*env.N, 256, relu), Dense(256, 1, tanh)) |> gpu
+    end
+    if policy == nothing
+      policy = Chain(Conv((1,1), 256=>2), BatchNorm(2, relu), x->reshape(x, :, size(x, 4)),
+                      Dense(2env.N*env.N, env.action_space), x -> softmax(x)) |> gpu
+    end
+
+    all_params = vcat(params(base_net), params(value), params(policy))
+    opt = Momentum(all_params, 0.02f0)
+    new(base_net, value, policy, opt)
+  end
+end
+```
+### MCTSPlayer
+`MCTSPlayer` struct simulates a game using Monte-Carlo Tree Search and `NeuralNet`. It takes `NeuralNet` and `env` as input. The player plays the game upto the number of readouts. `MCTSPlayer` can perform following functions:
+- MCTS
+- Pick a move based on MCTS and play it
+- Extract data from the games played by it
+
+These functionalities are used during the training and testing phase.
+### Selfplay
+Self-play stage is used in the training phase. In this stage, the  `MCTSPlayer` plays a game against itself. Every move in the game is picked based on the MCTS and played. After the game ends, the `MCTSPlayer` object is returned for extraction of data.
+
+### Training
+`train()` method is used by the user to train the model based on the following parameters:
+- `env`
+- `num_games`: Number of self-play games to be played
+Optional arguments:
+- `memory_size`: Size of the memory buffer
+- `batch_size`
+- `epochs`: Number of epochs to train the data on
+- `ckp_freq`: Frequecy of saving the model and weights
+- `tower_height`: AlphaGo Zero Architecture uses residual networks stacked together. This is called a tower of residual networks. `tower_height` specifies how many residual blocks to be stacked.
+- `model`: Object of type `NeuralNet`
+- `readouts`: number of readouts by `MCTSPlayer`
+- `start_training_after`: Number of games after which training will be started
+
+`train()` starts off with a game of `selfplay()` using the current best `NeuralNet`. On completion of the game, the data from that game  is extracted. This includes the board states, policy used at each move,and the result of that game. This data is stored in the memory buffer.
+```julia
+for i = 1:num_games
+  player = selfplay(env, cur_nn, readouts)
+  p, π, v = extract_data(player)
+
+  pos_buffer = vcat(pos_buffer, p)
+  π_buffer   = vcat(π_buffer, π)
+  res_buffer = vcat(res_buffer, v)
+
+  if length(pos_buffer) > memory_size
+    pos_buffer = pos_buffer[end-memory_size+1:end]
+    π_buffer   = π_buffer[end-memory_size+1:end]
+    res_buffer = res_buffer[end-memory_size+1:end]
+  end
+
+  if length(pos_buffer) >= start_training_after
+    replay_pos, replay_π, replay_res = get_replay_batch(pos_buffer, π_buffer, res_buffer; batch_size = batch_size)
+    loss = train!(cur_nn, (replay_pos, replay_π, replay_res); epochs = epochs)
+    result = player.result_string
+    num_moves = player.root.position.n
+    println("Episode $i over. Loss: $loss. Winner: $result. Moves: $num_moves.")
+  end
+
+  if i % ckp_freq == 0
+    save_model(cur_nn)
+    print("Model saved. ")
+  end
+end
+```
+At every training step, `batch_size`number of samples are picked from the memory. The features are extracted from the board states picked and fed into the `NeuralNet`, which gives out the value and policy as described above in the `NeuralNet` section.
+
+We then compute losses. There are three kinds of losses here: Policy loss, Value loss and L2 regularisation.
+```julia
+# Policy loss: p is predicted policy
+loss_π(π, p) = crossentropy(p, π; weight = 0.01f0)
+
+# Value loss
+loss_value(z, v) = 0.01f0 * mse(z, v)
+```
+
+The losses are added and backpropagated, after which the optimizer updates the weights. `epochs` can be specified in the `train` call to train on this data. Periodically, the `NeuralNet` and its weights are backed up using [`BSON.jl`](http://github.com/MikeInnes/BSON.jl).
+
+## Play
+To play against saved `NeuralNet` model, we have to load it using `load_model`. It accepts path of the model and `env` as parameters and returns an object of `NeuralNet`.
+`play()` takes following arguments:
+- `env`
+- `nn`: an object of type `NeuralNet`
+- `tower_height`
+- `num_readouts`
+- `mode`: It specifies human will play as Black or white. If `mode` is 0 then human is Black, else White.
+
+### Sample usage
+```julia
+using AlphaGo
+
+# This makes a Go board of 9x9
+env = GoEnv(9)
+
+# A NeuralNet object of tower_height 10 is made and trained and returned
+neural_net = train(env, num_games=100, ckp_freq=10, tower_height=10, start_training_after=500)
+
+# Plays a game against the trained network, with human as White
+play(env, neural_net, mode = 1)
+```
