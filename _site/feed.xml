@@ -1,4 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-07-10T00:56:56+05:30</updated><id>http://localhost:4000/</id><title type="html">Tejan Karmali</title><subtitle>Here, I share my experience during GSoC and Deep learning.</subtitle><entry><title type="html"></title><link href="http://localhost:4000/2018/07/10/2018-07-08-GSoC-Phase-2.html" rel="alternate" type="text/html" title="" /><published>2018-07-10T00:56:56+05:30</published><updated>2018-07-10T00:56:56+05:30</updated><id>http://localhost:4000/2018/07/10/2018-07-08-GSoC-Phase-2</id><content type="html" xml:base="http://localhost:4000/2018/07/10/2018-07-08-GSoC-Phase-2.html">&lt;p&gt;Hello, world!&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-08-13T05:56:28+05:30</updated><id>http://localhost:4000/</id><title type="html">Tejan Karmali</title><subtitle>Here, I share my experience during GSoC and Deep learning.</subtitle><entry><title type="html">GSoC’18: Final Summary</title><link href="http://localhost:4000/jekyll/update/2018/07/08/GSoC-Final-Summary.html" rel="alternate" type="text/html" title="GSoC'18: Final Summary" /><published>2018-07-08T16:00:00+05:30</published><updated>2018-07-08T16:00:00+05:30</updated><id>http://localhost:4000/jekyll/update/2018/07/08/GSoC-Final-Summary</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/07/08/GSoC-Final-Summary.html">&lt;p&gt;Hello, world!&lt;/p&gt;
+
+&lt;p&gt;In this post I’m going to briefly summarize about the machine learning models I have worked on during this summer for GSoC. I worked towards enriching model zoo of &lt;a href=&quot;https://github.com/FluxML&quot;&gt;Flux.jl&lt;/a&gt;, a machine learning library written in &lt;a href=&quot;https://github.com/julia/julialang&quot;&gt;Julia&lt;/a&gt;. My project covered Reinforcement Learning and computer vision models.&lt;/p&gt;
+
+&lt;p&gt;The project is spread over these 4 codebases&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines&quot;&gt;Flux-baselines&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/AlphaGo.jl&quot;&gt;AlphaGo.jl&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/tree/GAN&quot;&gt;GAN models&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/tree/DNI&quot;&gt;DNI model&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In the process, I could achieve most of my targets. I had to skip a few of them, and also made some unplanned models. Below, I discuss about these issues repository wise.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-flux-baselines&quot;&gt;1. &lt;a href=&quot;https://github.com/tejank10/Flux-baselines&quot;&gt;Flux-baselines&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Flux baselines is a collection of various Deep Reinforcement Learning models. This includes Deep Q Networks, Actor-Critic and DDPG.&lt;/p&gt;
+
+&lt;p&gt;Basic structure of an RL probem is as folowd: There is an environment, let’s say game of pong is our environment. The environment may contain many ojects which interact with each other. In pong there are 3 objects: a ball and 2 paddles. The environment has a &lt;em&gt;state&lt;/em&gt;. It is the current situation present in the environment in terms of various features of the objects in it. These features could be position, velocity, color etc. pertaining to the objects in the it. An actions needs to be chosed to play a move in the environment and obtain the next state. Actions will be chosen till the game ends. An RL model basically finds the actions that needs to be chosen.&lt;/p&gt;
+
+&lt;p&gt;Over past few years, deep q learning has gained  lot of popularity. After the paper by Deep Mind about the Human level control sing reinforcement learning, there was no looking back. It combined the advanced in RL as well as deep learning to get an AI player which had superhuman performance. I made the basic &lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/dqn/dqn.jl&quot;&gt;DQN&lt;/a&gt; and &lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/dqn/double-dqn.jl&quot;&gt;Double DQN&lt;/a&gt; during the pre-GSoC phase, followed by &lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/dqn/duel-dqn.jl&quot;&gt;Duel DQN&lt;/a&gt; in the first week on GSoC.&lt;/p&gt;
+
+&lt;p&gt;The idea used in the &lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/actor-critic/a2c.jl&quot;&gt;A2C model&lt;/a&gt; is different from the one in DQN. A2C falls in the class of “Actor-Critic” models. In AC models we have 2 neural networks, policy network and value network. policy network accepts the state of the game and returns a probability distribution over the action space. Value Nework takes the state and action chosen using policy network as input and determines how suitable is that action for that state.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines/tree/master/ddpg&quot;&gt;DDPG&lt;/a&gt; is particularly useful when the actions which needs to be chosed are spread over a continuous space. one possible solution you may have in mind is that what if we discretize the action space? If we discretize it narrowly we end up with a large number of actions. If we discretize it sparsely then we lose important data.&lt;/p&gt;
+
+&lt;p&gt;Some of these models have been deployed on Flux’s &lt;a href=&quot;https://fluxml.ai&quot;&gt;website&lt;/a&gt;. CartPole example has been trained on Deep Q Networks and the pong example is trained on Duel-DQN.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=L3pqMUDVrT0&quot;&gt;Here&lt;/a&gt; is a demo of Pong trained using Flux.&lt;/p&gt;
+&lt;h4 id=&quot;targets-achieved&quot;&gt;Targets achieved&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/actor-critic/a2c.jl&quot;&gt;Advantage Actor-Critic&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/dqn/duel-dqn.jl&quot;&gt;Duel DQN&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;extra-mile&quot;&gt;Extra mile&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines/tree/master/ddpg&quot;&gt;DDPG&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/Flux-baselines/blob/master/dqn/prioritized-replay-dqn.jl&quot;&gt;Prioritized DQN&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;future-work&quot;&gt;Future Work&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Add more variety of models, especially the ones which have come up in the last 18 momnths.&lt;/li&gt;
+  &lt;li&gt;Create an interface to easily train and test any environment from &lt;a href=&quot;https://github.com.JuliaML/OpenAIGym.jl&quot;&gt;OpenAIGym.jl&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;2-alphagojl&quot;&gt;2. &lt;a href=&quot;https://github.com/tejank10/AlphaGo.jl&quot;&gt;AlphaGo.jl&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;This mini-project of the GSoC phase 2 was the most challenging part. AlphaGo Zero is a breakthrough AI by Google DeepMind. It is an AI to play Go, which is considered to be one of most challeenging games in the world, mainly  due to number of states it can lead to. AlphaGo Zero defeated the best Go player in the world. AlphaFo.jl’s objective is achieve the results produced by AlphaGo Zero algorithm over Go, and achieve similar results on any zero-sum game.&lt;/p&gt;
+
+&lt;p&gt;Now, we have a package to train AlphaGo zero model in Julia! And it is really simple to train the model. We just have to pass the training parameters, the environment on which we want to train the model and then play with it.
+For more info in the AlphaGo.jl refer to the &lt;a href=&quot;https://tejank10.github.io/jekyll/update/2018/07/08/GSoC-Phase-2.html&quot;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;targets-achieved-1&quot;&gt;Targets achieved&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Game of Go&lt;/li&gt;
+  &lt;li&gt;Monte Carlo tree search&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;targets-couldnt-achieve&quot;&gt;Targets couldn’t achieve&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Couldn’t train the model well&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;extra-mile-1&quot;&gt;Extra Mile&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Game of Gomoku to test the algorithm (since it is easier game)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;future-work-1&quot;&gt;Future work&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Train a model on any game&lt;/li&gt;
+  &lt;li&gt;AlphaChess&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;3-generative-adversarial-networks&quot;&gt;3. &lt;a href=&quot;https://github.com/tejank10/model-zoo/tree/GAN/vision/mnist&quot;&gt;Generative Adversarial Networks&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;GANs have been extremely suceessful in learning the underlying representation of any data. By doing so, it can reproduce some fake data. For example the GANs trained on MNIST Human handwritten digits dataset can produce some fake images which look very similar to those in the MNIST. These neural nets have great application in image editing. It can remove certain features from the image, add some new ones; depending on the dataset. The GANs contain of two networks: generator and discriminator. Generator’s objective os to generate fake images awhereas the discirrminato’s objejctive is to discriminate between the fake images generted by thhe generator anf the real image sin dataset.&lt;/p&gt;
+
+&lt;h4 id=&quot;targets-acheived&quot;&gt;Targets acheived&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/FluxML/Flux.jl/pull/311&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ConvTranspose&lt;/code&gt; layer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/blob/GAN/vision/mnist/dcgan.jl&quot;&gt;DCGAN&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;extra-mile-2&quot;&gt;Extra Mile&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/blob/GAN/vision/mnist/lsgan.jl&quot;&gt;LSGAN&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/blob/GAN/vision/mnist/wgan.jl&quot;&gt;WGAN&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;future-work-2&quot;&gt;Future work&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;More model of GAN like infoGAN, BEGAN, CycleGAN&lt;/li&gt;
+  &lt;li&gt;Some cool animations with GANs&lt;/li&gt;
+  &lt;li&gt;Data pipeline for training and producing images with dataset, and GAN type as input.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;4-decoupled-neural-interface&quot;&gt;4. &lt;a href=&quot;https://github.com/tejank10/model-zoo/tree/DNI/vision/mnist/dni.jl&quot;&gt;Decoupled Neural Interface&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Decoupled Neural Interface is a new technique to train the momdel. It does not use the backpropagation from the output layer right upto the input layer. Instead it uses a trick to “estimate” the gradient. It has a small linear layer neural network to predict the gradients, instead of running the backpropagation rather than finding the true gradients. The advantage of such a model is that it can be parallelized. This technique results in slight dip in the accuracy, but we have improved speed if we have parallelized the layers in the network.&lt;/p&gt;
+
+&lt;h4 id=&quot;targets-achieved-2&quot;&gt;Targets achieved:&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/tejank10/model-zoo/tree/DNI/vision/mnist/dni.jl&quot;&gt;DNI model&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;During the past three months, I learn a lot about Reinforcement Learning and AlphaGo in particular. I experienced training an RL model for days, finally saw it working well! I encountered the issues faced in training the models and learnt to overcome them. All in all, as an aspiring ML engineer these three months have been the most productive months. I am glad that I could meet most of my objectives. I have worked on some extra models to make up for the objectives I could not meet.&lt;/p&gt;
+
+&lt;h2 id=&quot;acknowledgements&quot;&gt;Acknowledgements&lt;/h2&gt;
+&lt;p&gt;I really would like to thank my mentor Mike Innes for guiding me throughtout the project, and James Bradbury for his valuable inputs for improving the code in the Reinforcement Learning models. I also would like to thank Neethu Mariya Joy for deploying the trained models on th web. And last but not the least, NumFOCUS: for sponsoring me and all other JSoC students for JuliaCon’18 London.&lt;/p&gt;</content><author><name></name></author><summary type="html">Hello, world!</summary></entry><entry><title type="html">GSoC’18: AlphaGo.jl</title><link href="http://localhost:4000/jekyll/update/2018/07/08/GSoC-Phase-2.html" rel="alternate" type="text/html" title="GSoC'18: AlphaGo.jl" /><published>2018-07-08T16:00:00+05:30</published><updated>2018-07-08T16:00:00+05:30</updated><id>http://localhost:4000/jekyll/update/2018/07/08/GSoC-Phase-2</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/07/08/GSoC-Phase-2.html">&lt;p&gt;Hello, world!&lt;/p&gt;
 
 &lt;p&gt;The phase 2 of GSoC is over and &lt;a href=&quot;https://github.com/tejank10/AlphaGo.jl&quot;&gt;AlphaGo.jl&lt;/a&gt; is ready! In this post I am going to explain about the usage of it.
 &lt;a href=&quot;https://github.com/tejank10/AlphaGo.jl&quot;&gt;AlphaGo.jl&lt;/a&gt; is built to try and test the Alpha(Go)Zero algorithm with your own parameters on the game of Go. Today, I’ll explain about higher level methods of it. For more details, which mainly includes MCTS implementation, you can check out the &lt;a href=&quot;https://github.com/tejank10/AlphaGo.jl&quot;&gt;repo&lt;/a&gt;. It is built using &lt;a href=&quot;https://www.fluxml.ai&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Flux.jl&lt;/code&gt;&lt;/a&gt;, a machine learning library for &lt;a href=&quot;https://www.julialang.org&quot;&gt;Julia&lt;/a&gt;.&lt;/p&gt;
@@ -137,7 +247,7 @@ Optional arguments:&lt;/li&gt;
 
 &lt;span class=&quot;c&quot;&gt;# Plays a game against the trained network, with human as White&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;play&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;neural_net&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author></entry><entry><title type="html">GSoC’18: From Go to AlphaGo</title><link href="http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4.html" rel="alternate" type="text/html" title="GSoC'18: From Go to AlphaGo" /><published>2018-06-09T16:00:00+05:30</published><updated>2018-06-09T16:00:00+05:30</updated><id>http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4.html">&lt;p&gt;Hello, world!&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">Hello, world!</summary></entry><entry><title type="html">GSoC’18: From Go to AlphaGo</title><link href="http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4.html" rel="alternate" type="text/html" title="GSoC'18: From Go to AlphaGo" /><published>2018-06-09T16:00:00+05:30</published><updated>2018-06-09T16:00:00+05:30</updated><id>http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2018/06/09/GSoC-week3-4.html">&lt;p&gt;Hello, world!&lt;/p&gt;
 
 &lt;p&gt;In the last post, I had talked about the game of Go and its dynamics. In last two weeks, I worked on the set objectives which were Monte-Carlo Tree Search and putting things together to make AlphaGo Zero.&lt;/p&gt;
 
