@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GSoC'18: Final Summary"
-date:   2018-07-08 16:00 +0530
+date:   2018-08-08 16:00 +0530
 categories: jekyll update
 ---
 
