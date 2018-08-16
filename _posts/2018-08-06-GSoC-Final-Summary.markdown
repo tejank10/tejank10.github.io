@@ -64,7 +64,7 @@ For more info in the AlphaGo.jl refer to the [blog post](https://tejank10.github
 2. AlphaChess
 
 ### 3. [Generative Adversarial Networks](https://github.com/tejank10/model-zoo/tree/GAN/vision/mnist)
-GANs have been extremely suceessful in learning the underlying representation of any data. By doing so, it can reproduce some fake data. For example the GANs trained on MNIST Human handwritten digits dataset can produce some fake images which look very similar to those in the MNIST. These neural nets have great application in image editing. It can remove certain features from the image, add some new ones; depending on the dataset. The GANs contain of two networks: generator and discriminator. Generator's objective os to generate fake images awhereas the discirrminato's objejctive is to discriminate between the fake images generted by thhe generator anf the real image sin dataset.
+GANs have been extremely suceessful in learning the underlying representation of any data. By doing so, it can reproduce some fake data. For example the GANs trained on MNIST Human handwritten digits dataset can produce some fake images which look very similar to those in the MNIST. These neural nets have great application in image editing. It can remove certain features from the image, add some new ones; depending on the dataset. The GANs contain of two networks: generator and discriminator. Generator's objective os to generate fake images awhereas the discriminator's objective is to differentiate between the fake images generted by thhe generator and the real images in the  dataset.  
 
 #### Targets acheived
 1. [`ConvTranspose` layer](https://github.com/FluxML/Flux.jl/pull/311)
