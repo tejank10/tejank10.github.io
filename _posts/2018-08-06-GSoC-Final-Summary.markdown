@@ -28,6 +28,10 @@ The idea used in the [A2C model](https://github.com/tejank10/Flux-baselines/blob
 
 [DDPG](https://github.com/tejank10/Flux-baselines/tree/master/ddpg) is particularly useful when the actions which needs to be chosed are spread over a continuous space. one possible solution you may have in mind is that what if we discretize the action space? If we discretize it narrowly we end up with a large number of actions. If we discretize it sparsely then we lose important data.
 
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/ddpg.png" alt="DDPG"/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DDPG: Score vs Episodes
+
 Some of these models have been deployed on Flux's [website](https://fluxml.ai). CartPole example has been trained on Deep Q Networks and the pong example is trained on Duel-DQN.
 
 [Here](https://www.youtube.com/watch?v=L3pqMUDVrT0) is a demo of Pong trained using Flux.
@@ -66,6 +70,13 @@ For more info in the AlphaGo.jl refer to the [blog post](https://tejank10.github
 ### 3. [Generative Adversarial Networks](https://github.com/tejank10/model-zoo/tree/GAN/vision/mnist)
 GANs have been extremely suceessful in learning the underlying representation of any data. By doing so, it can reproduce some fake data. For example the GANs trained on MNIST Human handwritten digits dataset can produce some fake images which look very similar to those in the MNIST. These neural nets have great application in image editing. It can remove certain features from the image, add some new ones; depending on the dataset. The GANs contain of two networks: generator and discriminator. Generator's objective os to generate fake images awhereas the discriminator's objective is to differentiate between the fake images generted by thhe generator and the real images in the  dataset.  
 
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/lsgan.gif" alt="LSGAN" width="170px"/>
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/dcgan.gif" alt="DCGAN" width="170px"/>
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/giphy.gif" alt="WGAN" width="170px"/>
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/made.gif" alt="MADE" width="170px"/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LSGAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DCGAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WGAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MADE
+
 #### Targets acheived
 1. [`ConvTranspose` layer](https://github.com/FluxML/Flux.jl/pull/311)
 2. [DCGAN](https://github.com/tejank10/model-zoo/blob/GAN/vision/mnist/dcgan.jl)
@@ -75,13 +86,18 @@ GANs have been extremely suceessful in learning the underlying representation of
 2. [WGAN](https://github.com/tejank10/model-zoo/blob/GAN/vision/mnist/wgan.jl)
 
 #### Future work
-1. More model of GAN like infoGAN, BEGAN, CycleGAN
+1. More models of GAN like infoGAN, BEGAN, CycleGAN
 2. Some cool animations with GANs
 3. Data pipeline for training and producing images with dataset, and GAN type as input.
 
 ### 4. [Decoupled Neural Interface](https://github.com/tejank10/model-zoo/tree/DNI/vision/mnist/dni.jl)
 
 Decoupled Neural Interface is a new technique to train the momdel. It does not use the backpropagation from the output layer right upto the input layer. Instead it uses a trick to "estimate" the gradient. It has a small linear layer neural network to predict the gradients, instead of running the backpropagation rather than finding the true gradients. The advantage of such a model is that it can be parallelized. This technique results in slight dip in the accuracy, but we have improved speed if we have parallelized the layers in the network.
+
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/loss.png" alt="loss" width="362.5px"/>
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/acc.png" alt="loss" width="362.5px"/>
+
+
 
 #### Targets achieved:
 - [DNI model](https://github.com/tejank10/model-zoo/tree/DNI/vision/mnist/dni.jl)
