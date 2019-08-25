@@ -140,7 +140,10 @@ And after a while, you should be able to see the bot guiding itself on the lane!
 
 
 ## What next?
-It was a productive summer for me. I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds. In future, I plan to:
-- Transfer learning on the
+What a productive summer it was!. I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds. In future, I plan to:
+- Transfer learning: Evaluating the performace model trained on one map by testing it on other maps.
+- Defining tasks over of maps
+- There has been some advances in terms of the [pakcages](https://phyre.ai) for physical environements for deep learning. I plan to do some experiments on that using diffferentiable programming.
+
 ## Ackowledgements
 I am extremely grateful to my mentor Mike Innes for posing faith in me for this ambitious project. A huge thanks to my fellow GSoC'er Avik Pal for his amazing RayTracer, and helping me out from time to time. I would also like to thank Dhairya Gandhi for his valuable inputs, Julia Computing Bengaluru for hosting me, and Julia Computing for providing machines for training. Finally, I thank Google for providing me this amazing opportunity in being part of the mission to drive open source culture.
