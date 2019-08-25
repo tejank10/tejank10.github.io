@@ -11,12 +11,10 @@ Over the past year I continued my streak with Julia by contributing to [some int
 
 We chose duckietown environment to test our approach. [Duckietown](https://www,duckietown.org) is a project started by Prof. Liam Paull. It is miniature model of a town having buildings, vehicles, traffic signals, and pedestrians. Maxime Chevalier-Boisvert et al, from MILA have built an awesome simulator of the duckietown, called [gym-duckietown](https://github.com/duckietown/gym-duckietown). It is used for testing algorithms before deploying it in real duckietown environment. But since it is written using python, it is not differentiable. Hence to make it differentiable we had to build it in julia.
 
-Duckietown.jl creation is spread over three parts:
+[Duckietown.jl]((https://github.com/tejank10/Duckietown.jl)) creation is spread over three parts:
 - The Simulator
 - Rendering with RayTracer
 - Training
-
-The project can be found [here](https;//github.com/tejank10/Duckietown.jl)
 
 Let's get started!
 
