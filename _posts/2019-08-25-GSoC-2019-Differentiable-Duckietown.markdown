@@ -7,7 +7,7 @@ categories: jekyll update
 
 Hello there,
 
-Over past one year I continued my streak with Julia by contributing to [some interesting experiments](https://fluxml.ai/2019/03/05/dp-vs-rl.html) with [differentiable programming](https://fluxml.ai/2019/02/07/what-is-differentiable-programming.html). That got me super-excited about the paradigm of differentiable learning. Main idea being that if we have knowledge about the system, it could be used to simplify and accelerate the training process. Together with Mike and Avik, we planned on a mission: a self driving car simulator using differentiable programming.
+Over the past year I continued my streak with Julia by contributing to [some interesting experiments](https://fluxml.ai/2019/03/05/dp-vs-rl.html) with [differentiable programming](https://fluxml.ai/2019/02/07/what-is-differentiable-programming.html). That got me super-excited about the paradigm of differentiable learning. Main idea being that if we have knowledge about the system, it could be used to simplify and accelerate the training process. Together with Mike and Avik, we planned on a mission: a self driving car simulator using differentiable programming.
 
 We chose duckietown environment to test our approach. [Duckietown](https://www,duckietown.org) is a project started by Prof. Liam Paull. It is miniature model of a town having buildings, vehicles, traffic signals, and pedestrians. Maxime Chevalier-Boisvert et al, from MILA have built an awesome simulator of the duckietown, called [gym-duckietown](https://github.com/duckietown/gym-duckietown). It is used for testing algorithms before deploying it in real duckietown environment. But since it is written using python, it is not differentiable. Hence to make it differentiable we had to build it in julia.
 
@@ -140,10 +140,7 @@ And after a while, you should be able to see the bot guiding itself on the lane!
 
 
 ## What next?
-
-
-## Final Thoughts
-
-I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds.  
-
-It was a very productive summer for me. I am extremely grateful to my mentor Mike Innes for posing faith in me for this ambitious project. A huge thanks to my fellow GSoC'er Avik Pal for his amazing RayTracer, and helping me out from time to time. I would also like to thank Dhairya Gandhi for his valuable inputs, Julia Computing Bengaluru for hosting me, and Julia Computing for providing machines for training. Finally, I thank Google for providing me this amazing opportunity in being part of the mission to drive open source culture.
+It was a productive summer for me. I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds. In future, I plan to:
+- Transfer learning on the
+## Ackowledgements
+I am extremely grateful to my mentor Mike Innes for posing faith in me for this ambitious project. A huge thanks to my fellow GSoC'er Avik Pal for his amazing RayTracer, and helping me out from time to time. I would also like to thank Dhairya Gandhi for his valuable inputs, Julia Computing Bengaluru for hosting me, and Julia Computing for providing machines for training. Finally, I thank Google for providing me this amazing opportunity in being part of the mission to drive open source culture.

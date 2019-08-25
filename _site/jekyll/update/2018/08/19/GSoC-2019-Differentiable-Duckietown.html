@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>GSoC’19: Differentiable Duckietown | Tejan Karmali</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="GSoC’19: Differentiable Duckietown" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Hello there," />
+<meta property="og:description" content="Hello there," />
+<link rel="canonical" href="http://localhost:4000/jekyll/update/2018/08/19/GSoC-2019-Differentiable-Duckietown.html" />
+<meta property="og:url" content="http://localhost:4000/jekyll/update/2018/08/19/GSoC-2019-Differentiable-Duckietown.html" />
+<meta property="og:site_name" content="Tejan Karmali" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-19T16:00:00+05:30" />
+<script type="application/ld+json">
+{"description":"Hello there,","headline":"GSoC’19: Differentiable Duckietown","dateModified":"2018-08-19T16:00:00+05:30","datePublished":"2018-08-19T16:00:00+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/jekyll/update/2018/08/19/GSoC-2019-Differentiable-Duckietown.html"},"url":"http://localhost:4000/jekyll/update/2018/08/19/GSoC-2019-Differentiable-Duckietown.html","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Tejan Karmali" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Tejan Karmali</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">GSoC&#39;19: Differentiable Duckietown</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-08-19T16:00:00+05:30" itemprop="datePublished">Aug 19, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Hello there,</p>
+
+<p>Over the past year I continued my streak with Julia by contributing to <a href="https://fluxml.ai/2019/03/05/dp-vs-rl.html">some interesting experiments</a> with <a href="https://fluxml.ai/2019/02/07/what-is-differentiable-programming.html">differentiable programming</a>. That got me super-excited about the paradigm of differentiable learning. Main idea being that if we have knowledge about the system, it could be used to simplify and accelerate the training process. Together with Mike and Avik, we planned on a mission: a self driving car simulator using differentiable programming.</p>
+
+<p>We chose duckietown environment to test our approach. <a href="https://www,duckietown.org">Duckietown</a> is a project started by Prof. Liam Paull. It is miniature model of a town having buildings, vehicles, traffic signals, and pedestrians. Maxime Chevalier-Boisvert et al, from MILA have built an awesome simulator of the duckietown, called <a href="https://github.com/duckietown/gym-duckietown">gym-duckietown</a>. It is used for testing algorithms before deploying it in real duckietown environment. But since it is written using python, it is not differentiable. Hence to make it differentiable we had to build it in julia.</p>
+
+<p>Let’s get started!</p>
+
+<h2 id="the-environment">The Environment</h2>
+<p>Duckietown environment comtains maps for different tasks - straight road, loop, zigzag turns, UdeM etc. There are also some variants of these maps with dynamic objects, like traffic signal and pedestrians. The maps are encoded in a .yaml files and can be parsed with <a href="https://github.com/BioJulia/YAML.jl">YAML.jl</a>. Each environments contains a map in the form of a grid. Each element of the grid is allocated a tile: for eg. a road, an asphault, an office floor or it can be a grassy surface. A logical arrangement of these tiles is all that is required for a bare bones version of map to set up. That’s all the straight road and loopy road maps have. To make these maps more challenging, we need to add objects to it. Objects can be static or dynamic. Static ojects incnlude a building, tree, triffic sign, bus, truck, traffic cone etc. Dynamic objects are traffic signals, and duckies which are the pedestrians in the duckietown. The positions of these objects are defined in the map. An object is represented as meshes, with texture wrapped around it.</p>
+
+<p><img src="https://github.com/tejank10/tejank10.github.io/raw/master/assets/udem1.gif" alt="UdeM" align="middle" width="400" height="300" /></p>
+
+<h2 id="the-simulator">The Simulator</h2>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">using</span> <span class="n">Duckietown</span><span class="x">,</span> <span class="n">Flux</span><span class="x">,</span> <span class="n">Zygote</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="x">(</span><span class="n">map_name</span><span class="o">=</span><span class="s">"straight_road"</span><span class="x">,</span> <span class="n">camera_width</span> <span class="o">=</span> <span class="mi">128</span><span class="x">,</span> <span class="n">camera_height</span> <span class="o">=</span> <span class="mi">128</span><span class="x">)</span>
+</code></pre></div></div>
+<p>Simulator manages the subtasks involved in running the duckietown and
+maintains related statistics. The subtasks include updating the states and positions of different objects involved, running an action on duckiebot, maintaining data such as velocity, position, action performed on the duckiebot, rendering what the bit sees etc. The parameters of the simulator are defined in a <code class="highlighter-rouge">FixedParams</code> objects. These are the parameters that define the behaviour of the simulator.</p>
+
+<h2 id="rendering-the-view">Rendering the view</h2>
+<p><code class="highlighter-rouge">renderobs(...)</code> is used to render was duckiebot sees. We use differentiable <a href="https://github.com/avik-pal/RayTracer.jl">RayTracer.jl</a> for this purpose. For rendering we first need to define a camera model. Camera needs to know where the bot is looking from &amp; at, dimensions of image, fied of view, focal length, and up vector.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="x">,</span> <span class="n">y</span><span class="x">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">cur_pos</span>
+<span class="c"># get the direction in which bot is looking</span>
+<span class="n">dx</span><span class="x">,</span> <span class="n">dy</span><span class="x">,</span> <span class="n">dz</span> <span class="o">=</span> <span class="n">get_dir_vec</span><span class="x">(</span><span class="n">sim</span><span class="o">.</span><span class="n">cur_angle</span><span class="x">)</span>
+
+<span class="c">## Define camera model</span>
+<span class="c"># Looking from</span>
+<span class="n">eye</span> <span class="o">=</span> <span class="n">Vec3</span><span class="x">([</span><span class="n">x</span><span class="x">],</span> <span class="x">[</span><span class="n">y</span><span class="x">],</span> <span class="x">[</span><span class="n">z</span><span class="x">])</span>
+<span class="c"># Looking at</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">Vec3</span><span class="x">([</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="x">],</span> <span class="x">[</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="x">],</span> <span class="x">[</span><span class="n">z</span> <span class="o">+</span> <span class="n">dz</span><span class="x">])</span>
+<span class="c"># vup is vector pointing in upward direction</span>
+<span class="n">vup</span> <span class="o">=</span> <span class="n">Vec3</span><span class="x">([</span><span class="mf">0f0</span><span class="x">],</span> <span class="x">[</span><span class="mf">1f0</span><span class="x">],</span> <span class="x">[</span><span class="mf">0f0</span><span class="x">])</span>
+<span class="n">cam</span> <span class="o">=</span> <span class="n">Camera</span><span class="x">(</span><span class="n">eye</span><span class="x">,</span> <span class="n">target</span><span class="x">,</span> <span class="n">vup</span><span class="x">,</span> <span class="n">cam_fov_y</span><span class="x">,</span> <span class="n">focal_length</span><span class="x">,</span> <span class="n">cam_width</span><span class="x">,</span> <span class="n">cam_height</span><span class="x">)</span>
+</code></pre></div></div>
+<p>A scene is generated containing all the objects in the environments. These objects are decomposed into triangles.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Scene generation</span>
+<span class="n">scene</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="n">Triangle</span><span class="x">}()</span>
+<span class="c"># Decompose the objects into triangles</span>
+<span class="n">obj_Δs</span> <span class="o">=</span> <span class="n">map</span><span class="x">(</span><span class="n">obj</span><span class="o">-&gt;</span><span class="n">render</span><span class="x">(</span><span class="n">obj</span><span class="x">,</span> <span class="n">fp</span><span class="o">.</span><span class="n">draw_bbox</span><span class="x">),</span> <span class="n">objs</span><span class="x">)</span>
+
+<span class="k">for</span> <span class="n">oΔ</span> <span class="k">in</span> <span class="n">obj_Δs</span>
+    <span class="n">scene</span> <span class="o">=</span> <span class="n">vcat</span><span class="x">(</span><span class="n">scene</span><span class="x">,</span> <span class="n">oΔ</span><span class="x">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Light source and its position is defined, which is then used to raytrace the scene.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Define light source</span>
+<span class="n">light_pos</span> <span class="o">=</span> <span class="n">Vec3</span><span class="x">([</span><span class="o">-</span><span class="mf">40f0</span><span class="x">],</span> <span class="x">[</span><span class="mf">200f0</span><span class="x">],</span> <span class="x">[</span><span class="mf">100f0</span><span class="x">])</span>
+<span class="c"># PointLight takes color, intensity and position of light source as args</span>
+<span class="n">light</span> <span class="o">=</span> <span class="n">PointLight</span><span class="x">(</span><span class="n">Vec3</span><span class="x">([</span><span class="mf">1f0</span><span class="x">]),</span> <span class="mf">5f15</span><span class="x">,</span> <span class="n">light_pos</span><span class="x">)</span>
+<span class="n">origin</span><span class="x">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">get_primary_rays</span><span class="x">(</span><span class="n">cam</span><span class="x">)</span>
+
+<span class="c"># Rendering what duckiebot sees</span>
+<span class="nb">im</span> <span class="o">=</span> <span class="n">raytrace</span><span class="x">(</span><span class="n">origin</span><span class="x">,</span> <span class="n">direction</span><span class="x">,</span> <span class="n">observation</span><span class="x">,</span> <span class="n">light</span><span class="x">,</span> <span class="n">origin</span><span class="x">,</span> <span class="mi">2</span><span class="x">)</span>
+</code></pre></div></div>
+
+<h2 id="taking-action">Taking action</h2>
+<p><code class="highlighter-rouge">step!(...)</code> is used to take action on the duckiebot. action is a vector of length 2. It specifies
+speed of left and right wheel. each element belongs to [-1, 1], where positive speed implies moving in the forward direction. Velocities of both the wheels give us the information about the steering direction of the robot. For eg: to move on a straight road both the velocities should be equal, whereas to take a left turn velocity of left wheel should be less than that of right wheel. Using this, robot’s new position and direciton is calculated.</p>
+
+<p>A path to be followed is determined by bezier curves. Each tile has its own bezier curve defined. For example, a straight road tile would have a straight line as its curve whereas that for a left turn would be approximately circular. Based on this curve, two kinds of rewards are defined. The distance from the curve and angular distance from the tangent of the curve. There is also a penalty to prevent collision. Each object has a safety circle surrounding itself. Collision penalty is the degree of overlap between the the safety circle of the bot and that of an object.</p>
+
+<p>With these details, we are now equipped to train a model!</p>
+
+<h2 id="training-a-model">Training a model</h2>
+<p>We define a simple Flux model, which extracts features from the image using <code class="highlighter-rouge">Conv</code> and passes them onto the FC layers.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># model: Input- Rendering of what duckiebot sees</span>
+<span class="c">#        Output- Action to be taken</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Chain</span><span class="x">(</span>
+           <span class="n">Conv</span><span class="x">((</span><span class="mi">3</span><span class="x">,</span> <span class="mi">3</span><span class="x">),</span> <span class="mi">3</span><span class="o">=&gt;</span><span class="mi">8</span><span class="x">,</span> <span class="n">relu</span><span class="x">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="mi">1</span><span class="x">),</span>
+           <span class="n">MaxPool</span><span class="x">((</span><span class="mi">2</span><span class="x">,</span> <span class="mi">2</span><span class="x">)),</span>
+           <span class="n">Conv</span><span class="x">((</span><span class="mi">3</span><span class="x">,</span> <span class="mi">3</span><span class="x">),</span> <span class="mi">8</span><span class="o">=&gt;</span><span class="mi">16</span><span class="x">,</span> <span class="n">relu</span><span class="x">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="mi">1</span><span class="x">),</span>
+           <span class="n">MaxPool</span><span class="x">((</span><span class="mi">2</span><span class="x">,</span> <span class="mi">2</span><span class="x">)),</span>
+           <span class="n">Conv</span><span class="x">((</span><span class="mi">3</span><span class="x">,</span> <span class="mi">3</span><span class="x">),</span> <span class="mi">16</span><span class="o">=&gt;</span><span class="mi">32</span><span class="x">,</span> <span class="n">relu</span><span class="x">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="mi">1</span><span class="x">),</span>
+           <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">reshape</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="x">:,</span> <span class="mi">1</span><span class="x">),</span>
+           <span class="n">Dense</span><span class="x">((</span><span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="x">),</span> <span class="mi">64</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span>
+           <span class="n">Dense</span><span class="x">(</span><span class="mi">64</span><span class="x">,</span> <span class="mi">16</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span>
+           <span class="n">Dense</span><span class="x">(</span><span class="mi">16</span><span class="x">,</span> <span class="mi">2</span><span class="x">),</span>
+           <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">reshape</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="mi">2</span><span class="x">))</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">ADAM</span><span class="x">(</span><span class="mf">0.001f0</span><span class="x">)</span>
+</code></pre></div></div>
+<p>We begin with dividing an episode into sequences. Let’s call a sequence as <code class="highlighter-rouge">μEpisode</code>. In each <code class="highlighter-rouge">μEpisode</code>, actions are perormed for short number of timesteps. We take loss as negative of reward and add an action penalty. Recall that actions should lie in [-1, 1]. Since for initial few timesteps actions could arbirtrarily lie anywhere in the real domain, this penalty is required. Also, reward is proportional to speed. If Very high action is chosen, than it sould also set very high speed and in turn very high reward, which is not expected ideally. Action penalty is somewhat similar to the regularisation loss.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function μEpisode(model, sim, initial_render, μEp_len)
+    obs, action, reward, done, info = step!(sim, model(initial_render))
+    loss = -reward + action_penalty(action)
+
+    done &amp;&amp; return loss
+
+    for iter in 2:μEp_len
+        obs, action, reward, done, info = step!(sim, model(obs))
+        loss += -reward + action_penalty(action)
+        done &amp;&amp; return loss
+    end
+
+    return loss
+end
+</code></pre></div></div>
+<p>In the <code class="highlighter-rouge">episode!(...)</code> function, gradient of the loss wrt to the parameters of the <code class="highlighter-rouge">model</code> is taken using <a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a>, a source-to-source AD package. Gradients are clamped in order ot prevent the overflow due to gradient explosion.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function episode!(sim)    
+    for μEp in 1:NUM_μEPISODES
+        # Get the gradients of μEpisode
+        initial_render = render_obs(sim)
+        gs = Zygote.gradient(params(model)) do
+            μEpisode(model, sim, initial_render, μEPISODE_LENGTH)
+        end
+
+        # Update the weights
+        for p in params(model)
+            clamp!(gs[p], -0.01f0, 0.01f0)
+            Flux.Optimise.update!(opt, p, gs[p])
+        end
+
+        sim.done &amp;&amp; break
+    end
+
+    reset!(sim)
+end
+</code></pre></div></div>
+<p>And after a while, you should be able to see the bot guiding itself on the lane!
+<img src="https://raw.githubusercontent.com/tejank10/tejank10.github.io/master/assets/straight_road_w_text.gif" alt="Straight road" align="middle" width="400" height="300" /></p>
+
+<h2 id="what-next">What next?</h2>
+<p>It was a productive summer for me. I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds. In future, I plan to:</p>
+<ul>
+  <li>Transfer learning on the
+    <h2 id="ackowledgements">Ackowledgements</h2>
+    <p>I am extremely grateful to my mentor Mike Innes for posing faith in me for this ambitious project. A huge thanks to my fellow GSoC’er Avik Pal for his amazing RayTracer, and helping me out from time to time. I would also like to thank Dhairya Gandhi for his valuable inputs, Julia Computing Bengaluru for hosting me, and Julia Computing for providing machines for training. Finally, I thank Google for providing me this amazing opportunity in being part of the mission to drive open source culture.</p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/jekyll/update/2018/08/19/GSoC-2019-Differentiable-Duckietown.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Tejan Karmali</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Tejan Karmali</li><li><a class="u-email" href="mailto:tejank10@gmail.com">tejank10@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/tejank10"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">tejank10</span></a></li><li><a href="https://www.twitter.com/tejank10"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tejank10</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Here, I share my experience during GSoC and Deep learning.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
