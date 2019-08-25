@@ -149,7 +149,7 @@ And after a while, you should be able to see the bot guiding itself on the lane!
 ## What's next?
 What a productive summer it was!. I believe this is just a start for differentiable programming. By having knowledge about the system, we can speed up the training of a model on it by leaps and bounds. In future, I plan to:
 - Transfer learning: Evaluating the performace model trained on one map by testing it on other maps.
-- Defining tasks over of maps
+- Defining tasks over different maps
 - There has been some advances in terms of the [pakcages](https://phyre.ai) for physical environements for deep learning. I plan to do some experiments on that using diffferentiable programming.
 
 ## Ackowledgements
