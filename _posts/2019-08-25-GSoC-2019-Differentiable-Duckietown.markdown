@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "GSoC'19: Differentiable Duckietown"
+title: "GSoC'19: Duckietown.jl Summary"
 date:   2018-08-19 16:00 +0530
 categories: jekyll update
 ---
