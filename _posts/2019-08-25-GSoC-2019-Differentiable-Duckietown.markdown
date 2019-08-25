@@ -28,7 +28,7 @@ Simulator manages the subtasks involved in running the duckietown and
 maintains related statistics. The subtasks include updating the states and positions of different objects involved, running an action on duckiebot, maintaining data such as velocity, position, action performed on the duckiebot, rendering what the bit sees etc. The parameters of the simulator are defined in a `FixedParams` objects. These are the parameters that define the behaviour of the simulator.
 
 ## Rendering the view
-`render_obs(...)` is used to render was duckiebot sees. We use differentiable [RayTracer.jl](https://github.com/avik-pal/RayTracer.jl) for this purpose. For rendering we first need to define a camera model. Camera needs to know where the bot is looking from & at, dimensions of image, fied of view, focal length, and up vector.
+`rende_obs(...)` is used to render was duckiebot sees. We use differentiable [RayTracer.jl](https://github.com/avik-pal/RayTracer.jl) for this purpose. For rendering we first need to define a camera model. Camera needs to know where the bot is looking from & at, dimensions of image, fied of view, focal length, and up vector.
 ```julia
 x, y, z = sim.cur_pos
 # get the direction in which bot is looking
