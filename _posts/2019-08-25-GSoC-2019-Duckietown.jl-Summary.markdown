@@ -6,7 +6,7 @@ categories: GSoC19
 
 Hello there,
 
-Over the past year, I continued my streak with Julia by contributing to [some interesting experiments](https://fluxml.ai/2019/03/05/dp-vs-rl.html) with [differentiable programming](https://fluxml.ai/2019/02/07/what-is-differentiable-programming.html). That got me super-excited about the paradigm of differentiable learning. The main idea being that if we know the system, it could be used to simplify and accelerate the training process. Together with Mike and Avik, we planned on a mission: a self-driving car simulator using differentiable programming.  
+Over the past year, I continued my streak with Julia by contributing to [some interesting experiments](https://fluxml.ai/blogposts/2019-03-05-dp-vs-rl/) with [differentiable programming](https://fluxml.ai/blogposts/2019-02-07-what-is-differentiable-programming/). That got me super-excited about the paradigm of differentiable learning. The main idea being that if we know the system, it could be used to simplify and accelerate the training process. Together with Mike and Avik, we planned on a mission: a self-driving car simulator using differentiable programming.  
 
 We chose duckietown environment to test our approach. [Duckietown](https://www.duckietown.org) is a project started by Prof. Liam Paull. It is a miniature model of a town having buildings, vehicles, traffic signals, and pedestrians. Maxime Chevalier-Boisvert et al, from MILA, have built an awesome simulator of the duckietown, called [gym-duckietown](https://github.com/duckietown/gym-duckietown). It is used for testing algorithms before deploying it in real duckietown environment. But since it is written using python, it is not differentiable. Hence to make it differentiable we had to build it in julia.
 
