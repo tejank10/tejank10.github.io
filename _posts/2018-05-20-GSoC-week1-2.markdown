@@ -1,8 +1,7 @@
 ---
-layout: post
 title:  "GSoC'18: Flux baselines, Go and more"
 date:   2018-05-26 16:00 +0530
-categories: jekyll update
+categories: GSoC18
 ---
 
 Hello, world!

@@ -1,9 +1,9 @@
 ---
-layout: post
 title:  "Accepted to GSoC'18"
-date:   2018-05-04 16:00 +0530
-categories: jekyll update
+date:   2018-05-04
+categories: GSoC18
 ---
+
 
 Hello, world!
 

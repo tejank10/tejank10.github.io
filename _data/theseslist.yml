@@ -1,0 +1,9 @@
+- title: Landmark Estimation and Image Synthesis Guidance using Self-Supervised  Networks
+  image: mtech_res_thesis.png
+  description: Discovered properties neural networks trained on large data using Self-Supervised Learning, and used them to improve few-shot landmark estimation and naturalness of generated images in StyleGANs.
+  authors: "<b>T. Karmali</b>"
+  venue: M.Tech. (Research) Thesis, Indian Institute of Science, March, 2022
+  number_link: 1
+  link1:
+    url: "https://tejank10.github.io/files/mtech_res_thesis.pdf"
+    display: pdf

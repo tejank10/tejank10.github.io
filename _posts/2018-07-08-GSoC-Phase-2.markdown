@@ -1,8 +1,7 @@
 ---
-layout: post
 title: "GSoC'18: AlphaGo.jl"
 date:   2018-07-08 16:00 +0530
-categories: jekyll update
+categories: GSoC18
 ---
 
 Hello, world!

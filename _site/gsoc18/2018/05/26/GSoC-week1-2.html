@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GSoC&#39;18: Flux baselines, Go and more</title>
+  <meta name="description" content="Hello, world!">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/gsoc18/2018/05/26/GSoC-week1-2.html">
+<link rel="shortcut icon" type ="image/x-icon" href="http://localhost:4000/images/favicon.ico">
+
+
+
+</head>
+
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+
+    <a class="navbar-brand" href="http://localhost:4000/">Tejan Karmali</a>
+	</div>
+	<div class="collapse navbar-collapse" id="navbar-collapse-1">
+	  <ul class="nav navbar-nav navbar-right">
+		<li><a href="http://localhost:4000/">Home</a></li>
+		<li><a href="http://localhost:4000/publications">Publications</a></li>
+		<li><a href="http://localhost:4000/jekyll/update/">Blog</a></li>
+		<li><a href="http://localhost:4000/cv">CV</a></li>
+	  </ul>
+	</div>
+  </div>
+</div>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        
+
+
+
+
+
+<div id="main" role="main">
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GSoC’18: Flux baselines, Go and more">
+    <meta itemprop="description" content="Hello, world!">
+    <meta itemprop="datePublished" content="May 26, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">GSoC’18: Flux baselines, Go and more
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2018-05-26T16:00:00+05:30">May 26, 2018</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Hello, world!</p>
+
+<p>The commmunity bonding period and first 2 weeks of GSoC has come to an end. Community bonding period lasted over three weeks. I coult not do much work over first two weeks due to my end semester exams. In the third week, I implemented <a href="https://arxiv.org/abs/1502.03509">MADE</a>, which is Masked Autoencoder for Distributed Estimation.  I also added dilation feature for convolutions (which was a <a href="https://github.com/FluxML/NNlib.jl/pull/31#issuecomment-386673632">feature request</a> for NNlib.jl).</p>
+<ul>
+  <li><a href="https://github.com/FluxML/model-zoo/pull/39">PR#19</a>: Implemented MADE architecture in Flux.</li>
+  <li><a href="https://github.com/FluxML/NNlib.jl/pull/40">PR#40</a>: Dilation support for convolutions. So far, dilation support is available for 1D, 2D and 3D convolutions.</li>
+</ul>
+
+<p>In week 1, I implemented and created demos of some seminal papers in deep reinforcement learning. The algorithms implemented were tested on environments in OpenAI Gym using the package <a href="https://github.com/JuliaML/OpenAIGym.jl">OpenAIGym.jl</a>. Environments used for testing are CartPole-v0, Pong-v0 and Pendulum-v0. The work done in this regard over pre-GSoC period and this week has been compiled into <a href="https://github.com/tejank10/Flux-baselines">Flux baselines</a> repo. As of now it contains 6 models, which include:</p>
+<ul>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/dqn/dqn.jl">Deep Q Networks</a></li>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/dqn/double-dqn.jl">Double DQN</a></li>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/dqn/prioritized-replay-dqn.jl">Prioritized Experience Replay DQN</a></li>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/dqn/duel-dqn.jl">Dueling DDQN </a></li>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/actor-critic/a2c.jl">Advantage Actor-Critic</a></li>
+  <li><a href="https://github.com/tejank10/Flux-baselines/blob/master/ddpg/ddpg.jl">Deep Deterministic Policy Gradients</a></li>
+</ul>
+
+<p>In week 2, I started working towards one major milestone of the project: the <a href="https://deepmind.com/blog/alphago-zero-learning-scratch/">AlphaGo Zero</a> model. For those of you not familiar, AlphaGo Zero is latest version of AlphaGo which is a program to play (and defeat :P) the ancient Chinese game of Go. This version of AlphaGo doesn’t take any human amateur and professional games to learn how to play Go. Instead it learns to play by playing games against itself, starting from completely random play.</p>
+
+<p><a href="https://github.com/tejank10/AlphaGo.jl">AlphaGo.jl</a> is where I am implementing the Flux based version of AlphaGo Zero. This part of project is divided  into three tasks:</p>
+<ul>
+  <li>Creating the environment for Go</li>
+  <li>Monte-Carlo Tree Search</li>
+  <li>Main model of AlphaGo Zero using Go and MCTS</li>
+</ul>
+
+<p>In week 2 I created the environment of Go. The environment simulates the game of Go, with abstraction like that of OpenAI Gym. The game can be played on a board of size 9x9, 13x13, 17x17 or 19x19. A player is assigned stones of either black or white color. The player with black stones makes the first move. Now, this can be an advantage for the black player. Hence white player is awarded some extra points. These extra points are called komi. Players can place a stone on any intersection of a vertical and horizontal lines on the board. A <em>NxN</em> board has <em>N^2</em> intersections.  On a player’s turn, he can either place a stone or can pass to the other player. Thus, action space for the environment is <em>N^2 + 1</em>. The game ends when both the players pass consecutively. Depending on the end game state of the board, scores are calculated and winner is decided.</p>
+
+<p>In the coming days, my goals will be to complete the other two tasks. Hopefully in the next blog post, I’ll present the demo of the game before you.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+      </footer>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/gsoc18/2018/05/04/Accepted-to-GSoC.html" class="pagination--pager" title="Accepted to GSoC’18
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/gsoc18/2018/06/09/GSoC-week3-4.html" class="pagination--pager" title="GSoC’18: From Go to AlphaGo
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <div id="footer" class="panel">
+  <div class="panel-footer">
+	<div class="container-fluid">
+	  <div class="row">
+		<div class="col-sm-5">
+
+		  <p>Site made with <a href="https://jekyllrb.com">Jekyll</a>.</p>
+		   <p>  </p><p>
+
+
+		</div>
+		<div class="col-sm-5">
+		</div>
+    <div class="col-sm-5">
+		</div>
+		<div class="col-sm-5">
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://localhost:4000/js/bootstrap.min.js"></script>
+
+
+  </body>
+
+</html>

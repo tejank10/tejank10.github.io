@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GSoC&#39;18: AlphaGo.jl</title>
+  <meta name="description" content="Hello, world!">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/gsoc18/2018/07/08/GSoC-Phase-2.html">
+<link rel="shortcut icon" type ="image/x-icon" href="http://localhost:4000/images/favicon.ico">
+
+
+
+</head>
+
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+
+    <a class="navbar-brand" href="http://localhost:4000/">Tejan Karmali</a>
+	</div>
+	<div class="collapse navbar-collapse" id="navbar-collapse-1">
+	  <ul class="nav navbar-nav navbar-right">
+		<li><a href="http://localhost:4000/">Home</a></li>
+		<li><a href="http://localhost:4000/publications">Publications</a></li>
+		<li><a href="http://localhost:4000/jekyll/update/">Blog</a></li>
+		<li><a href="http://localhost:4000/cv">CV</a></li>
+	  </ul>
+	</div>
+  </div>
+</div>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        
+
+
+
+
+
+<div id="main" role="main">
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GSoC’18: AlphaGo.jl">
+    <meta itemprop="description" content="Hello, world!">
+    <meta itemprop="datePublished" content="July 08, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">GSoC’18: AlphaGo.jl
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock-o" aria-hidden="true"></i> 
+
+
+  
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2018-07-08T16:00:00+05:30">July 08, 2018</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p>Hello, world!</p>
+
+<p>The phase 2 of GSoC is over and <a href="https://github.com/tejank10/AlphaGo.jl">AlphaGo.jl</a> is ready! In this post I am going to explain about the usage of it.
+<a href="https://github.com/tejank10/AlphaGo.jl">AlphaGo.jl</a> is built to try and test the Alpha(Go)Zero algorithm with your own parameters on the game of Go. Today, I’ll explain about higher level methods of it. For more details, which mainly includes MCTS implementation, you can check out the <a href="https://github.com/tejank10/AlphaGo.jl">repo</a>. It is built using <a href="https://www.fluxml.ai"><code class="language-plaintext highlighter-rouge">Flux.jl</code></a>, a machine learning library for <a href="https://www.julialang.org">Julia</a>.</p>
+
+<h3 id="environment">Environment</h3>
+<p><code class="language-plaintext highlighter-rouge">GameEnv</code> is an <code class="language-plaintext highlighter-rouge">abstract type</code> used to represent game environment. Setting up environment is the first thing to do before starting with anything. This is because environment stores important information about the game which is used by other modules. Other modules require environment as input in order to set up themselves using this information.</p>
+
+<p>Example:</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">env</span> <span class="o">=</span> <span class="n">GoEnv</span><span class="x">(</span><span class="mi">9</span><span class="x">)</span>
+</code></pre></div></div>
+<p>Here we have set up environment for Go having board size of 9x9.</p>
+
+<h3 id="neuralnet">NeuralNet</h3>
+<p><code class="language-plaintext highlighter-rouge">NeuralNet</code> structure is used to store the AlphaZero neural network. The AlphaZero neural network is made up of three parts. A base network is there, which branches out into value netwrok and policy network.
+The base network accepts Position of the board as input. Value network outputs a single value between -1 to 1 denoting who will win from the given position. -1 denotes white will win from that position and 1 implies black. The policy network returns the probability distribution over the different actions for that position of board.</p>
+
+<p>You can replace any of these three networks with your own Flux model, provided it is consistent with the whole pipeline fo the <code class="language-plaintext highlighter-rouge">NeuralNet</code>.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutable struct</span><span class="nc"> NeuralNet</span>
+  <span class="n">base_net</span><span class="o">::</span><span class="n">Chain</span>
+  <span class="n">value</span><span class="o">::</span><span class="n">Chain</span>
+  <span class="n">policy</span><span class="o">::</span><span class="n">Chain</span>
+  <span class="n">opt</span>
+
+  <span class="k">function</span><span class="nf"> NeuralNet</span><span class="x">(</span><span class="n">env</span><span class="o">::</span><span class="n">T</span><span class="x">;</span> <span class="n">base_net</span> <span class="o">=</span> <span class="nb">nothing</span><span class="x">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">nothing</span><span class="x">,</span> <span class="n">policy</span> <span class="o">=</span> <span class="nb">nothing</span><span class="x">,</span>
+                          <span class="n">tower_height</span><span class="o">::</span><span class="kt">Int</span> <span class="o">=</span> <span class="mi">19</span><span class="x">)</span> <span class="k">where</span> <span class="n">T</span> <span class="o">&lt;:</span> <span class="n">GameEnv</span>
+    <span class="k">if</span> <span class="n">base_net</span> <span class="o">==</span> <span class="nb">nothing</span>
+      <span class="n">res_block</span><span class="x">()</span> <span class="o">=</span> <span class="n">ResidualBlock</span><span class="x">([</span><span class="mi">256</span><span class="x">,</span><span class="mi">256</span><span class="x">,</span><span class="mi">256</span><span class="x">],</span> <span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">3</span><span class="x">],</span> <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">1</span><span class="x">],</span> <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">1</span><span class="x">])</span>
+      <span class="c"># 19 residual blocks</span>
+      <span class="n">tower</span> <span class="o">=</span> <span class="x">[</span><span class="n">res_block</span><span class="x">()</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">tower_height</span><span class="x">]</span>
+      <span class="n">base_net</span> <span class="o">=</span> <span class="n">Chain</span><span class="x">(</span><span class="n">Conv</span><span class="x">((</span><span class="mi">3</span><span class="x">,</span><span class="mi">3</span><span class="x">),</span> <span class="n">env</span><span class="o">.</span><span class="n">planes</span><span class="o">=&gt;</span><span class="mi">256</span><span class="x">,</span> <span class="n">pad</span><span class="o">=</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span><span class="mi">1</span><span class="x">)),</span> <span class="n">BatchNorm</span><span class="x">(</span><span class="mi">256</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span>
+                        <span class="n">tower</span><span class="o">...</span><span class="x">)</span> <span class="o">|&gt;</span> <span class="n">gpu</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="nb">nothing</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">Chain</span><span class="x">(</span><span class="n">Conv</span><span class="x">((</span><span class="mi">1</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span> <span class="mi">256</span><span class="o">=&gt;</span><span class="mi">1</span><span class="x">),</span> <span class="n">BatchNorm</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">reshape</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="o">:</span><span class="x">,</span> <span class="n">size</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="mi">4</span><span class="x">)),</span>
+                    <span class="n">Dense</span><span class="x">(</span><span class="n">env</span><span class="o">.</span><span class="n">N</span><span class="o">*</span><span class="n">env</span><span class="o">.</span><span class="n">N</span><span class="x">,</span> <span class="mi">256</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span> <span class="n">Dense</span><span class="x">(</span><span class="mi">256</span><span class="x">,</span> <span class="mi">1</span><span class="x">,</span> <span class="n">tanh</span><span class="x">))</span> <span class="o">|&gt;</span> <span class="n">gpu</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">policy</span> <span class="o">==</span> <span class="nb">nothing</span>
+      <span class="n">policy</span> <span class="o">=</span> <span class="n">Chain</span><span class="x">(</span><span class="n">Conv</span><span class="x">((</span><span class="mi">1</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span> <span class="mi">256</span><span class="o">=&gt;</span><span class="mi">2</span><span class="x">),</span> <span class="n">BatchNorm</span><span class="x">(</span><span class="mi">2</span><span class="x">,</span> <span class="n">relu</span><span class="x">),</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">reshape</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="o">:</span><span class="x">,</span> <span class="n">size</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="mi">4</span><span class="x">)),</span>
+                      <span class="n">Dense</span><span class="x">(</span><span class="mi">2</span><span class="n">env</span><span class="o">.</span><span class="n">N</span><span class="o">*</span><span class="n">env</span><span class="o">.</span><span class="n">N</span><span class="x">,</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="x">),</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">softmax</span><span class="x">(</span><span class="n">x</span><span class="x">))</span> <span class="o">|&gt;</span> <span class="n">gpu</span>
+    <span class="k">end</span>
+
+    <span class="n">all_params</span> <span class="o">=</span> <span class="n">vcat</span><span class="x">(</span><span class="n">params</span><span class="x">(</span><span class="n">base_net</span><span class="x">),</span> <span class="n">params</span><span class="x">(</span><span class="n">value</span><span class="x">),</span> <span class="n">params</span><span class="x">(</span><span class="n">policy</span><span class="x">))</span>
+    <span class="n">opt</span> <span class="o">=</span> <span class="n">Momentum</span><span class="x">(</span><span class="n">all_params</span><span class="x">,</span> <span class="mf">0.02f0</span><span class="x">)</span>
+    <span class="n">new</span><span class="x">(</span><span class="n">base_net</span><span class="x">,</span> <span class="n">value</span><span class="x">,</span> <span class="n">policy</span><span class="x">,</span> <span class="n">opt</span><span class="x">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<h3 id="mctsplayer">MCTSPlayer</h3>
+<p><code class="language-plaintext highlighter-rouge">MCTSPlayer</code> struct simulates a game using Monte-Carlo Tree Search and <code class="language-plaintext highlighter-rouge">NeuralNet</code>. It takes <code class="language-plaintext highlighter-rouge">NeuralNet</code> and <code class="language-plaintext highlighter-rouge">env</code> as input. The player plays the game upto the number of readouts. <code class="language-plaintext highlighter-rouge">MCTSPlayer</code> can perform following functions:</p>
+<ul>
+  <li>MCTS</li>
+  <li>Pick a move based on MCTS and play it</li>
+  <li>Extract data from the games played by it</li>
+</ul>
+
+<p>These functionalities are used during the training and testing phase.</p>
+<h3 id="selfplay">Selfplay</h3>
+<p>Self-play stage is used in the training phase. In this stage, the  <code class="language-plaintext highlighter-rouge">MCTSPlayer</code> plays a game against itself. Every move in the game is picked based on the MCTS and played. After the game ends, the <code class="language-plaintext highlighter-rouge">MCTSPlayer</code> object is returned for extraction of data.</p>
+
+<h3 id="training">Training</h3>
+<p><code class="language-plaintext highlighter-rouge">train()</code> method is used by the user to train the model based on the following parameters:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">env</code></li>
+  <li><code class="language-plaintext highlighter-rouge">num_games</code>: Number of self-play games to be played
+Optional arguments:</li>
+  <li><code class="language-plaintext highlighter-rouge">memory_size</code>: Size of the memory buffer</li>
+  <li><code class="language-plaintext highlighter-rouge">batch_size</code></li>
+  <li><code class="language-plaintext highlighter-rouge">epochs</code>: Number of epochs to train the data on</li>
+  <li><code class="language-plaintext highlighter-rouge">ckp_freq</code>: Frequecy of saving the model and weights</li>
+  <li><code class="language-plaintext highlighter-rouge">tower_height</code>: AlphaGo Zero Architecture uses residual networks stacked together. This is called a tower of residual networks. <code class="language-plaintext highlighter-rouge">tower_height</code> specifies how many residual blocks to be stacked.</li>
+  <li><code class="language-plaintext highlighter-rouge">model</code>: Object of type <code class="language-plaintext highlighter-rouge">NeuralNet</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readouts</code>: number of readouts by <code class="language-plaintext highlighter-rouge">MCTSPlayer</code></li>
+  <li><code class="language-plaintext highlighter-rouge">start_training_after</code>: Number of games after which training will be started</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">train()</code> starts off with a game of <code class="language-plaintext highlighter-rouge">selfplay()</code> using the current best <code class="language-plaintext highlighter-rouge">NeuralNet</code>. On completion of the game, the data from that game  is extracted. This includes the board states, policy used at each move,and the result of that game. This data is stored in the memory buffer.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_games</span>
+  <span class="n">player</span> <span class="o">=</span> <span class="n">selfplay</span><span class="x">(</span><span class="n">env</span><span class="x">,</span> <span class="n">cur_nn</span><span class="x">,</span> <span class="n">readouts</span><span class="x">)</span>
+  <span class="n">p</span><span class="x">,</span> <span class="nb">π</span><span class="x">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">extract_data</span><span class="x">(</span><span class="n">player</span><span class="x">)</span>
+
+  <span class="n">pos_buffer</span> <span class="o">=</span> <span class="n">vcat</span><span class="x">(</span><span class="n">pos_buffer</span><span class="x">,</span> <span class="n">p</span><span class="x">)</span>
+  <span class="n">π_buffer</span>   <span class="o">=</span> <span class="n">vcat</span><span class="x">(</span><span class="n">π_buffer</span><span class="x">,</span> <span class="nb">π</span><span class="x">)</span>
+  <span class="n">res_buffer</span> <span class="o">=</span> <span class="n">vcat</span><span class="x">(</span><span class="n">res_buffer</span><span class="x">,</span> <span class="n">v</span><span class="x">)</span>
+
+  <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">pos_buffer</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">memory_size</span>
+    <span class="n">pos_buffer</span> <span class="o">=</span> <span class="n">pos_buffer</span><span class="x">[</span><span class="k">end</span><span class="o">-</span><span class="n">memory_size</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="x">]</span>
+    <span class="n">π_buffer</span>   <span class="o">=</span> <span class="n">π_buffer</span><span class="x">[</span><span class="k">end</span><span class="o">-</span><span class="n">memory_size</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="x">]</span>
+    <span class="n">res_buffer</span> <span class="o">=</span> <span class="n">res_buffer</span><span class="x">[</span><span class="k">end</span><span class="o">-</span><span class="n">memory_size</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="x">]</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">pos_buffer</span><span class="x">)</span> <span class="o">&gt;=</span> <span class="n">start_training_after</span>
+    <span class="n">replay_pos</span><span class="x">,</span> <span class="n">replay_π</span><span class="x">,</span> <span class="n">replay_res</span> <span class="o">=</span> <span class="n">get_replay_batch</span><span class="x">(</span><span class="n">pos_buffer</span><span class="x">,</span> <span class="n">π_buffer</span><span class="x">,</span> <span class="n">res_buffer</span><span class="x">;</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="x">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">train!</span><span class="x">(</span><span class="n">cur_nn</span><span class="x">,</span> <span class="x">(</span><span class="n">replay_pos</span><span class="x">,</span> <span class="n">replay_π</span><span class="x">,</span> <span class="n">replay_res</span><span class="x">);</span> <span class="n">epochs</span> <span class="o">=</span> <span class="n">epochs</span><span class="x">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">result_string</span>
+    <span class="n">num_moves</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">println</span><span class="x">(</span><span class="s">"Episode </span><span class="si">$</span><span class="s">i over. Loss: </span><span class="si">$</span><span class="s">loss. Winner: </span><span class="si">$</span><span class="s">result. Moves: </span><span class="si">$</span><span class="s">num_moves."</span><span class="x">)</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">ckp_freq</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">save_model</span><span class="x">(</span><span class="n">cur_nn</span><span class="x">)</span>
+    <span class="n">print</span><span class="x">(</span><span class="s">"Model saved. "</span><span class="x">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>At every training step, <code class="language-plaintext highlighter-rouge">batch_size</code>number of samples are picked from the memory. The features are extracted from the board states picked and fed into the <code class="language-plaintext highlighter-rouge">NeuralNet</code>, which gives out the value and policy as described above in the <code class="language-plaintext highlighter-rouge">NeuralNet</code> section.</p>
+
+<p>We then compute losses. There are three kinds of losses here: Policy loss, Value loss and L2 regularisation.</p>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Policy loss: p is predicted policy</span>
+<span class="n">loss_π</span><span class="x">(</span><span class="nb">π</span><span class="x">,</span> <span class="n">p</span><span class="x">)</span> <span class="o">=</span> <span class="n">crossentropy</span><span class="x">(</span><span class="n">p</span><span class="x">,</span> <span class="nb">π</span><span class="x">;</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.01f0</span><span class="x">)</span>
+
+<span class="c"># Value loss</span>
+<span class="n">loss_value</span><span class="x">(</span><span class="n">z</span><span class="x">,</span> <span class="n">v</span><span class="x">)</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="o">*</span> <span class="n">mse</span><span class="x">(</span><span class="n">z</span><span class="x">,</span> <span class="n">v</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>The losses are added and backpropagated, after which the optimizer updates the weights. <code class="language-plaintext highlighter-rouge">epochs</code> can be specified in the <code class="language-plaintext highlighter-rouge">train</code> call to train on this data. Periodically, the <code class="language-plaintext highlighter-rouge">NeuralNet</code> and its weights are backed up using <a href="http://github.com/MikeInnes/BSON.jl"><code class="language-plaintext highlighter-rouge">BSON.jl</code></a>.</p>
+
+<h2 id="play">Play</h2>
+<p>To play against saved <code class="language-plaintext highlighter-rouge">NeuralNet</code> model, we have to load it using <code class="language-plaintext highlighter-rouge">load_model</code>. It accepts path of the model and <code class="language-plaintext highlighter-rouge">env</code> as parameters and returns an object of <code class="language-plaintext highlighter-rouge">NeuralNet</code>.
+<code class="language-plaintext highlighter-rouge">play()</code> takes following arguments:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">env</code></li>
+  <li><code class="language-plaintext highlighter-rouge">nn</code>: an object of type <code class="language-plaintext highlighter-rouge">NeuralNet</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tower_height</code></li>
+  <li><code class="language-plaintext highlighter-rouge">num_readouts</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mode</code>: It specifies human will play as Black or white. If <code class="language-plaintext highlighter-rouge">mode</code> is 0 then human is Black, else White.</li>
+</ul>
+
+<h3 id="sample-usage">Sample usage</h3>
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">AlphaGo</span>
+
+<span class="c"># This makes a Go board of 9x9</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">GoEnv</span><span class="x">(</span><span class="mi">9</span><span class="x">)</span>
+
+<span class="c"># A NeuralNet object of tower_height 10 is made and trained and returned</span>
+<span class="n">neural_net</span> <span class="o">=</span> <span class="n">train</span><span class="x">(</span><span class="n">env</span><span class="x">,</span> <span class="n">num_games</span><span class="o">=</span><span class="mi">100</span><span class="x">,</span> <span class="n">ckp_freq</span><span class="o">=</span><span class="mi">10</span><span class="x">,</span> <span class="n">tower_height</span><span class="o">=</span><span class="mi">10</span><span class="x">,</span> <span class="n">start_training_after</span><span class="o">=</span><span class="mi">500</span><span class="x">)</span>
+
+<span class="c"># Plays a game against the trained network, with human as White</span>
+<span class="n">play</span><span class="x">(</span><span class="n">env</span><span class="x">,</span> <span class="n">neural_net</span><span class="x">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">1</span><span class="x">)</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+      </footer>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/gsoc18/2018/06/09/GSoC-week3-4.html" class="pagination--pager" title="GSoC’18: From Go to AlphaGo
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/gsoc18/2018/08/06/GSoC-Final-Summary.html" class="pagination--pager" title="GSoC’18: Final Summary
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <div id="footer" class="panel">
+  <div class="panel-footer">
+	<div class="container-fluid">
+	  <div class="row">
+		<div class="col-sm-5">
+
+		  <p>Site made with <a href="https://jekyllrb.com">Jekyll</a>.</p>
+		   <p>  </p><p>
+
+
+		</div>
+		<div class="col-sm-5">
+		</div>
+    <div class="col-sm-5">
+		</div>
+		<div class="col-sm-5">
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://localhost:4000/js/bootstrap.min.js"></script>
+
+
+  </body>
+
+</html>

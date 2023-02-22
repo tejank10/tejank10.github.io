@@ -1,0 +1,77 @@
+- title: Hierarchical Semantic Regularization of Latent Spaces in StyleGANs 
+  image: hsr.png
+  description: Hierarchial Regularization of GAN features which enhances the smoothness in latent space
+  authors: "<b>T. Karmali</b>, R. Parihar, S. Agarwal, H. Rangwani, V. Jampani, M. Singh, R.V. Babu"
+  venue: European Conference on Computer Vision, ECCV'22
+  number_link: 3
+  link1:
+    url: https://sites.google.com/view/hsr-eccv22
+    display: Project Page
+  link2:
+    url: https://arxiv.org/pdf/2208.03764
+    display: PDF
+  link3:
+    url: https://github.com/val-iisc/HSR
+    display: Code
+
+
+- title: Improving GANs for Long-Tailed Data through Group Spectral Regularization
+  image: gSR.png
+  description: Group Spectral Regularization for alleviating mode collapse in GANs particulary for long-tailed data.
+  authors: "H. Rangwani, N. Jaswani, <b>T. Karmali</b>, V. Jampani, R.V. Babu"
+  venue: European Conference on Computer Vision, ECCV'22
+  number_link: 3
+  link1:
+    url: https://sites.google.com/view/gsr-eccv22
+    display: Project Page
+  link2:
+    url: https://arxiv.org/pdf/2208.09932
+    display: PDF
+  link3:
+    url: https://github.com/val-iisc/gSRGAN
+    display: Code
+
+- title: "Everything is There in Latent Space: Attribute Editing and Attribute Style Manipulation by StyleGAN Latent Space Exploration"
+  image: flame.png
+  description: Technique to find high quality GAN edit direction using very few images.
+  authors: "R. Parihar, A. Dhiman, <b>T. Karmali</b>, R.V. Babu"
+  venue: ACM International Conference on Multimedia, ACMMM'22
+  number_link: 2
+  link1:
+    url: https://sites.google.com/view/flamelatentediting
+    display: Project Page
+  link2:
+    url: https://arxiv.org/pdf/2207.09855.pdf
+    display: PDF
+
+- title: "LEAD: Self-Supervised Landmark Estimation by Aligning Distributions of Feature Similarity"
+  image: lead.png
+  description: Reported correspondence tracking capability in BYOL and utilized it for few-shot landmark estimation.
+  authors: "<b>T. Karmali</b>&#42;, A. Atrishi&#42;, S.S. Harsha, S. Agarwal, V. Jampani, R.V. Babu"
+  venue: Winter Conference on Applications of Computer Vision, WACV'22
+  number_link: 3
+  link1:
+    url: https://sites.google.com/view/lead-wacv22
+    display: Project Page
+  link2:
+    url: https://arxiv.org/pdf/2204.02958.pdf
+    display: PDF
+  link3:
+    url: https://drive.google.com/drive/folders/1tcA2WoeRNYp5tfp9BVmbX-vs_qFslmwu
+    display: Code
+
+- title: Deep Implicit Surface Point Prediction Networks
+  image: cspnet.png
+  description: 3D Shape representation for both open and closed shapes, also enables fast surface normal finding.
+  authors: "R.M. Venkatesh, <b>T. Karmali</b>, S. Sharma, A. Ghosh, R.V. Babu, L.A. Jeni, M. Singh"
+  venue: International Conference on Computer Vision, ICCV'21
+  number_link: 3
+  link1:
+    url: https://sites.google.com/view/cspnet
+    display: Project Page
+  link2:
+    url: https://openaccess.thecvf.com/content/ICCV2021/papers/Venkatesh_Deep_Implicit_Surface_Point_Prediction_Networks_ICCV_2021_paper.pdf
+    display: PDF
+  link3:
+    url: https://github.com/rahulvenkk/csp-net
+    display: Code
