@@ -1,8 +1,11 @@
+- date: May, 2023
+  headline: Serving as a reviewer in [NeurIPS 2023](https://nips.cc/).
+
 - date: February, 2023
-  headline: Serving as reviewer in [ICCV 2023](https://iccv2023.thecvf.com/).
+  headline: Our work [NoisyTwins](https://rangwani-harsh.github.io/NoisyTwins/), which aims at long-tail and few-shot image generation for StyleGANs, got accepted in [CVPR 2023](https://cvpr.thecvf.com/)!.
 
 - date: November, 2022
-  headline: Serving as reviewer in <a href="http://cvpr2023.thecvf.com/">CVPR 2023</a>.
+  headline: Serving as a reviewer in <a href="http://cvpr2023.thecvf.com/">CVPR 2023</a>.
 
 - date: October, 2022
   headline: Attended ECCV'22 at Tel Aviv to present our works on GAN-- <i><a href="https://sites.google.com/view/hsr-eccv22/">HSR</a></i> and <i><a href="https://sites.google.com/view/gsr-eccv22/">gSR</a></i>.
