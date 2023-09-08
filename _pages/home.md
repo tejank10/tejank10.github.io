@@ -47,9 +47,9 @@ My research interest is in creating controllable representations from generative
 
   <!-- <br clear="all" /> -->
 
-  <A HREF="mailto:tejank10@gmail.com">tejank10@gmail.com</A> <br>
-  Google Research India<br>
-  Bengaluru, KA<br>
+  <A HREF="mailto:tejank10@gmail.com">tejank10@gmail.com</A> <be>
+  <!-- Google Research India<br> 
+  Bengaluru, KA<br> -- >
 
 
 </div>
