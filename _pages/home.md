@@ -20,7 +20,7 @@ Previously, I graduated from the Indian Institute of Science Bengaluru ([IISc](h
 
 I have been fortunate to be part of Google Summer of Code twice to contribute to the [JuliaLang](https://julialang.org/) under the mentorship of [Mike Innes](https://mikeinnes.io/). In the summer of 2019, I built [Duckietown.jl](https://github.com/tejank10/Duckietown.jl), a differentiable self-driving car simulation environment that enables the training of agents using differentiable programming. While in the summer of 2018, I contributed to Flux's [model zoo](https://github.com/FluxML/model-zoo) with Reinforcement Learning algorithms and built [AlphaGo.jl](https://github.com/tejank10/AlphaGo.jl) to train and play zero-sum board games using Alpha(Go)Zero algorithm in JuliaLang.
 
-My research interests are building Deep Learning models for generating and editing images, thus democratising the creation and manipulation of visual media.
+My research interest is in creating controllable representations from generative models for downstream tasks, such as image editing, 3D reconstruction, and building robust descriptors.
 
 
 <p align="center">
