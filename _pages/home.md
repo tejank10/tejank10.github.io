@@ -15,7 +15,7 @@ permalink: /
 I am an independent computer vision researcher, currently fiddling with diffusion models. Most recently, I was a Pre-Doctoral Researcher at [Google Research India](https://research.google/teams/india-research-lab/). I worked towards solving the problem of predicting super-resolved segmentation maps from satellite imagery in the Earth Observation Science team under the guidance of [Dr. Varun Gulshan](https://sites.google.com/view/varungulshan/home) and Alex Wilson.
 
 
-Previously, I graduated from the Indian Institute of Science Bengaluru ([IISc](https://www.iisc.ac.in/)) with an M.Tech. (Research) in [Computational and Data Sciences](https://cds.iisc.ac.in/). I was part of Video Analytics Lab ([VAL](https://val.cds.iisc.ac.in/)), where I worked towards my [thesis](https://etd.iisc.ac.in/handle/2005/5899) titled *Landmark Estimation and Image Synthesis Guidance using Self-Supervised Networks*, adviced by [Prof. R. Venkatesh Babu](http://cds.iisc.ac.in/faculty/venky/) and [Dr. Varun Jampani](varunjampani.github.io/).
+Previously, I graduated from the Indian Institute of Science Bengaluru ([IISc](https://www.iisc.ac.in/)) with an M.Tech. (Research) in [Computational and Data Sciences](https://cds.iisc.ac.in/). I was part of Video Analytics Lab ([VAL](https://val.cds.iisc.ac.in/)), where I worked towards my [thesis](https://etd.iisc.ac.in/handle/2005/5899) titled *Landmark Estimation and Image Synthesis Guidance using Self-Supervised Networks*, advised by [Prof. R. Venkatesh Babu](http://cds.iisc.ac.in/faculty/venky/) and [Dr. Varun Jampani](varunjampani.github.io/).
 
 
 I have been fortunate to be part of Google Summer of Code twice to contribute to the [JuliaLang](https://julialang.org/) under the mentorship of [Mike Innes](https://mikeinnes.io/). In the summer of 2019, I built [Duckietown.jl](https://github.com/tejank10/Duckietown.jl), a differentiable self-driving car simulation environment that enables the training of agents using differentiable programming. While in the summer of 2018, I contributed to Flux's [model zoo](https://github.com/FluxML/model-zoo) with Reinforcement Learning algorithms and built [AlphaGo.jl](https://github.com/tejank10/AlphaGo.jl) to train and play zero-sum board games using Alpha(Go)Zero algorithm in JuliaLang.
@@ -47,7 +47,7 @@ My research interest is in creating controllable representations from generative
 
   <!-- <br clear="all" /> -->
 
-  <A HREF="mailto:tejank10@gmail.com">tejank10@gmail.com</A> <br>
+  <!-- <A HREF="mailto:tejank10@gmail.com">Email</A> <br>-->
   <!-- Google Research India<br> -->
   <!-- Bengaluru, KA<br> -->
 
