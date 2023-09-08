@@ -24,9 +24,10 @@ My research interest is in creating controllable representations from generative
 
 
 <p align="center">
+  <a href="mailto:tejank10@gmail.com">Email</a>  /
   <a href="./files/TejanKarmaliCV.pdf">CV</a> /
   <a href="https://scholar.google.co.in/citations?user=Ulsd7DkAAAAJ&hl=en">Google Scholar</a> /
-  <a href="https://github.com/tejank10">Github</a> /
+  <a href="https://github.com/tejank10">GitHub</a> /
   <a href="https://www.linkedin.com/in/tejank10/">LinkedIn</a>
 </p>
 
