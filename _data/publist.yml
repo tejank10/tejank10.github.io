@@ -1,3 +1,19 @@
+- title: NoisyTwins: Class-Consistent and Diverse Image Generation through StyleGANs
+  image: nt.png
+  description: NoisyTwins is a self-supervised regularization scheme for StyleGANs, which helps in alleviating mode collapse and leads to consistent conditional fine-grained image generation.
+  authors: "H. Rangwani*, L. Bansal*, K. Sharma, <b>T. Karmali</b>, V. Jampani, R.V. Babu"
+  venue: Conference on Computer Vision and Pattern Recognition, CVPR'23
+  number_link: 3
+  link1:
+    url: https://rangwani-harsh.github.io/NoisyTwins/
+    display: Project Page
+  link2:
+    url: https://arxiv.org/pdf/2304.05866
+    display: PDF
+  link3:
+    url: https://github.com/val-iisc/NoisyTwins
+    display: Code
+
 - title: Hierarchical Semantic Regularization of Latent Spaces in StyleGANs 
   image: hsr.png
   description: Hierarchial Regularization of GAN features which enhances the smoothness in latent space
