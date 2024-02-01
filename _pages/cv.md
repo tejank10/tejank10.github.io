@@ -10,7 +10,7 @@ permalink: /cv
 
 <h3>CV</h3>
 
-<p>If the embedded document does not load, check out the pdf [here](https://drive.google.com/file/d/1wTSQlFtAO2D80xzRpFFC1ywjioQF2b1G/view?usp=sharing).</p>
+<p>If the embedded document does not load, check out the pdf [here](https://drive.google.com/file/d/1b5ruUWbpSD7M6VtGVBmIltmDbC1q3C6N/view?usp=sharing).</p>
 
 <section id="cvpdf">
 <p><i>Last updated December 2023</i></p>
