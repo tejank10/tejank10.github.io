@@ -1,3 +1,12 @@
+- date: September, 2024
+  headline: Started PhD in CS at Stanford University.
+
+- date: August 2024
+  headline: Our work AttributeDiffusion, which generates diverse-attributed image, is accepted at [WACV 2025](https://wacv2025.thecvf.com/)!
+
+- date: July 2024
+  headline: Our work [PreciseControl](https://rishubhpar.github.io/PreciseControl.home/), which combines best of StyleGAN and Text-to=Image Diffusion Models to generate diverse images with precise attributes is now accepted at [ECCV 2024](https://eccv.ecva.net/)!
+
 - date: November, 2023
   headline: Serving as a reviewer in [CVPR 2024](https://cvpr.thecvf.com/).
 
