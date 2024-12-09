@@ -12,7 +12,7 @@ permalink: /
 
 <div class="col-sm-8">
 
-I am a deep learning researcher, pursuing my PhD in [CS@Stanford](https://www.cs.stanford.edu/). I am currently exploring ideas on designing computer vision systems motivated by human behavior and thought.
+I am a deep learning researcher, pursuing my PhD in [CS@Stanford](https://www.cs.stanford.edu/). I am currently exploring ideas at the intersection of reinforcement learning and generative models.
 
 Previously, I worked as a Research Engineer at [Avataar](https://avataar.ai), where I built solutions for image-to-3D reconstruction problem. Before that, I was a Pre-Doctoral Researcher at [Google Research India](https://research.google/teams/india-research-lab/). I worked towards solving the problem of predicting super-resolved segmentation maps from satellite imagery in the Earth Observation Science team under the guidance of [Dr. Varun Gulshan](https://sites.google.com/view/varungulshan/home) and Alex Wilson.
 
