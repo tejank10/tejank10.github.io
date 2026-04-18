@@ -435,18 +435,61 @@ strong { font-weight: 600; }
   cursor: pointer;
   transition: var(--transition);
   background: var(--bg-secondary);
+  position: relative;
 }
 
 .gallery-item:hover {
-  opacity: 0.92;
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+}
+
+.gallery-item:hover img {
+  opacity: 0.92;
 }
 
 .gallery-item img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Location label — shown on hover */
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 18px 10px 7px;
+  background: linear-gradient(to top, rgba(0,0,0,0.58) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gallery-overlay a {
+  color: #fff;
+  font-size: 0.72rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  letter-spacing: 0.01em;
+}
+
+.gallery-overlay a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* ================================
@@ -504,6 +547,32 @@ strong { font-weight: 600; }
 .lightbox-nav:hover { color: var(--accent-hover); }
 .lightbox-prev { left: 10px; }
 .lightbox-next { right: 10px; }
+
+.lightbox-caption {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.lightbox-caption a {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  letter-spacing: 0.02em;
+}
+
+.lightbox-caption a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 /* ================================
    CV Page

@@ -1,0 +1,122 @@
+{
+  "photo_01.jpg": {
+    "lat": 22.2932,
+    "lng": 114.1713,
+    "location": "Tsim Sha Tsui, Hong Kong"
+  },
+  "photo_02.jpg": {
+    "lat": 32.053249,
+    "lng": 34.754672,
+    "location": "Tel Aviv-Yafo, Israel"
+  },
+  "photo_03.jpg": {
+    "lat": 13.022235,
+    "lng": 77.567183,
+    "location": "IISc, Bengaluru"
+  },
+  "photo_04.jpg": {
+    "lat": 15.301026,
+    "lng": 73.905031,
+    "location": "Majorda, Goa"
+  },
+  "photo_05.jpg": {
+    "lat": 47.606081,
+    "lng": -122.341552,
+    "location": "Seattle, WA"
+  },
+  "photo_06.jpg": {
+    "lat": 33.759758,
+    "lng": -84.392236,
+    "location": "Atlanta, United States"
+  },
+  "photo_07.jpg": {
+    "lat": 37.20586,
+    "lng": -122.11486,
+    "location": "Boulder Creek, CA"
+  },
+  "photo_08.jpg": {
+    "lat": 36.6055,
+    "lng": -121.89221,
+    "location": "Monterey Wharf, CA"
+  },
+  "photo_09.jpg": {
+    "lat": 37.421294,
+    "lng": -122.159386,
+    "location": "Stanford, CA"
+  },
+  "photo_10.jpg": {
+    "lat": 37.42294,
+    "lng": -122.16093,
+    "location": "Stanford, CA"
+  },
+  "photo_11.jpg": {
+    "lat": 36.28537,
+    "lng": -121.84331,
+    "location": "Big Sur, CA"
+  },
+  "photo_12.jpg": {
+    "lat": 37.33785,
+    "lng": -122.11784,
+    "location": "Rancho San Antonio Preserve, CA"
+  },
+  "photo_13.jpg": {
+    "lat": 37.72201,
+    "lng": -119.64994,
+    "location": "Yosemite National Park, CA"
+  },
+  "photo_14.jpg": {
+    "lat": 32.0853,
+    "lng": 34.781806,
+    "location": "Tel Aviv-Yafo, Israel"
+  },
+  "photo_15.jpg": {
+    "lat": 36.279675,
+    "lng": -121.853561,
+    "location": "Big Sur, CA"
+  },
+  "photo_16.jpg": {
+    "lat": 37.510219,
+    "lng": -121.896675,
+    "location": "Mission Peak, CA"
+  },
+  "photo_17.jpg": {
+    "lat": 37.4226,
+    "lng": -122.160692,
+    "location": "Stanford, CA"
+  },
+  "photo_18.jpg": {
+    "lat": 32.735053,
+    "lng": -117.149886,
+    "location": "San Diego Zoo, CA"
+  },
+  "photo_19.jpg": {
+    "lat": 37.458981,
+    "lng": -122.104661,
+    "location": "Palo Alto, CA"
+  },
+  "photo_20.jpg": {
+    "lat": 36.280072,
+    "lng": -121.848328,
+    "location": "Big Sur, CA"
+  },
+  "photo_21.jpg": {
+    "lat": 32.054783,
+    "lng": 34.756583,
+    "location": "Tel Aviv-Yafo, Israel"
+  },
+  "photo_22.jpg": {
+    "lat": 37.334567,
+    "lng": -122.109506,
+    "location": "Rancho San Antonio County Park, CA"
+  },
+  "photo_23.jpg": {
+    "lat": 36.972347,
+    "lng": -121.952447,
+    "location": "Capitola, CA"
+  },
+  "photo_24.jpg": {
+    "lat": 37.726253,
+    "lng": -119.556367,
+    "location": "Yosemite Valley, CA"
+  }
+}
