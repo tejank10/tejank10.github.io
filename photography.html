@@ -7,6 +7,37 @@
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 18px 10px 7px;
+      background: linear-gradient(to top, rgba(0,0,0,0.58) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .gallery-overlay a {
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 400;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+    .gallery-overlay a:hover { text-decoration: underline; text-underline-offset: 2px; }
+  </style>
 </head>
 
 <body>
