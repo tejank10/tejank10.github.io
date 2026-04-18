@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ocean BG Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { height: 100vh; font-family: 'Lexend', 'Segoe UI', sans-serif; background: #faf9f6; }
+    .hint {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      font-size: 12px; color: #888; letter-spacing: 0.05em;
+      background: rgba(250,249,246,0.75); padding: 6px 16px; border-radius: 20px;
+      backdrop-filter: blur(6px);
+    }
+  </style>
+  <!-- Full opacity preview (data-opacity="1") -->
+  <script src="ocean-bg.js" defer data-opacity="1"></script>
+</head>
+<body>
+  <p class="hint">Preview at full opacity — your site uses opacity 0.07 (very subtle)</p>
+</body>
+</html>
